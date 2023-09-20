@@ -1,13 +1,12 @@
 import express, {Request, Response} from 'express'
-import dotenv from 'dotenv'
+
 
 export function runServer() {
-    dotenv.config()
     const app = express()
-    const port = process.env.PORT || 3000
+    const port = 3000
 
     app.get('/', (req:Request, res:Response) => {
-        res.send('Hello Money!!!')
+        res.send('Node is rock!')
     })
 
     app.listen(port, () => {
