@@ -38,6 +38,7 @@ videoRouter.post('/', (req: Request, res: Response) => {
 
 //Read
 videoRouter.get('/', (req: Request, res: Response) => {
+    res.set('Content-Type', 'text/plain');
     res.send(videos)
 })
 
