@@ -47,7 +47,7 @@ videoRouter.get('/:id', (req: Request, res: Response) => {
     let video = videos.find((v => v.id === +req.params.id))
     if (video) {
         res.set('Content-Type', 'text/plain');
-        res.status(204).send(video)
+        res.status(200).send(video)
     } else {
         res.send(404)
     }
@@ -78,6 +78,8 @@ videoRouter.put('/:id', (req: Request, res: Response) => {
             resultCode: 1
         })
         return
+    } else {
+        res.status(204)
     }
 
     const foundVideo = videos.find((v) => v.id === +id);
