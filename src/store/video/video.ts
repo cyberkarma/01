@@ -1,0 +1,55 @@
+export interface IVideo {
+    id: number
+    title: string
+    author: string
+    canBeDownloaded: boolean
+    minAgeRestriction?: number | null
+    createAt: Date
+    publicationDate: Date
+    availableResolution: IVideoResolution | string
+}
+
+export enum IVideoResolution {
+    "P144",
+    "P240",
+    "P360",
+    "P480",
+    "P720",
+    "P1080",
+    "P1440",
+    "P2160",
+}
+
+export const generateRandomNumber = (): number => {
+    return Math.floor(Math.random() * 8);
+}
+
+export const generateRandomResolution = (): string => {
+    return IVideoResolution[Math.floor(Math.random() * 7)]
+}
+
+export const generateRandomVideo = (id: number): IVideo => {
+    let res: IVideo = {
+        id,
+        title: `Video ${id}`,
+        author: `Author ${id}`,
+        canBeDownloaded: Math.random() > 0.5,
+        minAgeRestriction: Math.floor(Math.random() * 18) || null,
+        createAt: new Date(),
+        publicationDate: new Date(),
+        availableResolution: generateRandomResolution()
+    }
+    return res
+}
+
+export const generateVideos = (count: number): IVideo[] => {
+    const videos = [];
+    for (let i = 0; i < count; i++) {
+        videos.push(generateRandomVideo(i + 1));
+    }
+    return videos;
+}
+
+
+
+
