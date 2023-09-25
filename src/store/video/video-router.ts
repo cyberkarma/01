@@ -29,10 +29,9 @@ videoRouter.post('/', (req: Request, res: Response) => {
         publicationDate: new Date(),
         title: req.body.title
     }
-    console.log(newVideo)
     videos.push(newVideo)
-
-    res.status(201).send(newVideo)
+// console.log("NEW VIDEO", typeof JSON.stringify(newVideo))
+    res.status(201).send(JSON.stringify(newVideo))
 
 })
 
