@@ -57,13 +57,18 @@ videoRouter.delete('/:id', (req: Request, res: Response) => {
 videoRouter.put('/:id', (req: Request, res: Response) => {
     const {id} = req.params;
     const video: IVideo = req.body;
+    if (!video || typeof video.title !== 'string' || !video.title.trim()) {
+        res.status(400).send({
+            errorsMessage: [{
+                "message": "Incorrect title",
+                "field": "title"
+            }]
+        })
+        return
+
+    }
 
     const foundVideo = videos.find((v) => v.id === +id);
-
-    if (!foundVideo) {
-        res.status(404).json({message: `Video with id ${id} not found`});
-        return;
-    }
 
     // Обновляем свойства видео, только если они присутствуют в req.body
     if (video.title) {
@@ -84,12 +89,5 @@ videoRouter.put('/:id', (req: Request, res: Response) => {
     if (video.publicationDate) {
         foundVideo.publicationDate = video.publicationDate;
     }
-
-
-    res.json({
-        message: `Video with id ${id} was updated`,
-        video: foundVideo
-    });
-
-
+    res.status(204).send(foundVideo)
 })
