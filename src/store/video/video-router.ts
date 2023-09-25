@@ -9,8 +9,11 @@ export const videoRouter = Router({})
 
 //Post
 videoRouter.post('/', (req: Request, res: Response) => {
+    let currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 1);
+
     const video: IVideo = req.body;
-    if (!video || !video.title.trim() || video.title.length > 40) {
+    if (!video || !video.title || !video.title.trim() || video.title.length > 40) {
         res.status(400).send({
             errorsMessage: [{
                 "message": "Incorrect title",
@@ -26,7 +29,7 @@ videoRouter.post('/', (req: Request, res: Response) => {
         canBeDownloaded: false,
         createdAt: new Date().toISOString(),
         id: +(new Date()),
-        publicationDate: new Date().toISOString(),
+        publicationDate: currentDate.toISOString(),
         title: video.title
     }
     videos.push(newVideo)
