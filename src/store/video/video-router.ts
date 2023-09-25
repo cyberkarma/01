@@ -69,6 +69,10 @@ videoRouter.put('/:id', (req: Request, res: Response) => {
     }
 
     const foundVideo = videos.find((v) => v.id === +id);
+    if (!foundVideo) {
+        res.status(404).json({message: `Video with id ${id} not found`});
+        return;
+    }
 
     // Обновляем свойства видео, только если они присутствуют в req.body
     if (video.title) {
