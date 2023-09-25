@@ -1,5 +1,5 @@
 import {Request, Response, Router} from "express";
-import {generateRandomResolution, generateVideos} from "./video";
+import {generateRandomResolution, generateVideos, IVideo} from "./video";
 
 
 const videos = generateVideos(10)
@@ -54,3 +54,43 @@ videoRouter.delete('/:id', (req: Request, res: Response) => {
     res.send(404)
 })
 
+videoRouter.put('/:id', (req: Request, res: Response) => {
+    const {id} = req.params;
+    const video: IVideo = req.body;
+
+    const foundVideo = videos.find((v) => v.id === +id);
+
+    if (!foundVideo) {
+        res.status(404).json({message: `Video with id ${id} not found`});
+        return;
+    }
+
+    // Обновляем свойства видео, только если они присутствуют в req.body
+
+    if (video.title) {
+        foundVideo.title = video.title;
+    }
+    if (video.author) {
+        foundVideo.author = video.author;
+    }
+    if (video.availableResolution) {
+        foundVideo.availableResolution = video.availableResolution;
+    }
+    if (video.canBeDownloaded !== undefined) {
+        foundVideo.canBeDownloaded = video.canBeDownloaded;
+    }
+    if (video.minAgeRestriction !== undefined) {
+        foundVideo.minAgeRestriction = video.minAgeRestriction;
+    }
+    if (video.publicationDate) {
+        foundVideo.publicationDate = video.publicationDate;
+    }
+
+
+    res.json({
+        message: `Video with id ${id} was updated`,
+        video: foundVideo
+    });
+
+
+})
