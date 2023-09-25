@@ -30,11 +30,12 @@ videoRouter.post('/', (req: Request, res: Response) => {
         createdAt: new Date().toISOString(),
         id: +(new Date()),
         publicationDate: currentDate.toISOString(),
-        title: video.title
+        title: video.title,
+        minAgeRestriction: video.minAgeRestriction || null
     }
     videos.push(newVideo)
 // console.log("NEW VIDEO", typeof JSON.stringify(newVideo))
-    console.log("NEW", req.body.availableResolutions)
+    console.log("NEW",  video.availableResolutions)
     res.status(201).set('Content-Type', 'text/plain').send(newVideo)
 
 })

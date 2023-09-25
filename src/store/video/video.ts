@@ -3,7 +3,7 @@ export interface IVideo {
     title: string
     author: string
     canBeDownloaded: boolean
-    minAgeRestriction?: number | null
+    minAgeRestriction: number | null
     createdAt: string
     publicationDate: string
     availableResolutions: Array<IVideoResolution | string>
