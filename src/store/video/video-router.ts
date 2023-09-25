@@ -35,7 +35,7 @@ videoRouter.get('/', (req: Request, res: Response) => {
 videoRouter.get('/:id', (req: Request, res: Response) => {
     let video = videos.find((v => v.id === +req.params.id))
     if (video) {
-        res.send(video)
+        res.status(200).send(video)
     } else {
         res.send(404)
     }
@@ -66,7 +66,6 @@ videoRouter.put('/:id', (req: Request, res: Response) => {
     }
 
     // Обновляем свойства видео, только если они присутствуют в req.body
-
     if (video.title) {
         foundVideo.title = video.title;
     }
