@@ -21,13 +21,13 @@ videoRouter.post('/', (req: Request, res: Response) => {
         return
     }
     const newVideo = {
-        author: "Artem",
-        availableResolution: generateRandomResolution(),
+        author: video.author,
+        availableResolution: video.availableResolution,
         canBeDownloaded: false,
-        createAt: new Date(),
+        createdAt: new Date().toISOString(),
         id: +(new Date()),
-        publicationDate: new Date(),
-        title: req.body.title
+        publicationDate: new Date().toISOString(),
+        title: video.title
     }
     videos.push(newVideo)
 // console.log("NEW VIDEO", typeof JSON.stringify(newVideo))

@@ -4,8 +4,8 @@ export interface IVideo {
     author: string
     canBeDownloaded: boolean
     minAgeRestriction?: number | null
-    createAt: Date
-    publicationDate: Date
+    createdAt: string
+    publicationDate: string
     availableResolution: IVideoResolution | string
 }
 
@@ -35,8 +35,8 @@ export const generateRandomVideo = (id: number): IVideo => {
         author: `Author ${id}`,
         canBeDownloaded: Math.random() > 0.5,
         minAgeRestriction: Math.floor(Math.random() * 18) || null,
-        createAt: new Date(),
-        publicationDate: new Date(),
+        createdAt: new Date().toISOString(),
+        publicationDate: new Date().toISOString(),
         availableResolution: generateRandomResolution()
     }
     return res
