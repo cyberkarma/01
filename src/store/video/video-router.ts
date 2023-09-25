@@ -31,8 +31,8 @@ videoRouter.post('/', (req: Request, res: Response) => {
     }
     videos.push(newVideo)
 // console.log("NEW VIDEO", typeof JSON.stringify(newVideo))
-    res.set('Content-Type', 'text/plain');
-    res.status(201).send(newVideo)
+    console.log("NEW", newVideo)
+    res.status(201).set('Content-Type', 'text/plain').send(newVideo)
 
 })
 
