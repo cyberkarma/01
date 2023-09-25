@@ -9,7 +9,17 @@ export const videoRouter = Router({})
 
 //Post
 videoRouter.post('/', (req: Request, res: Response) => {
-    console.log("PRIVET")
+    const video: IVideo = req.body;
+    if (!video || !video.title.trim() || video.title.length > 40) {
+        res.status(400).send({
+            errorsMessage: [{
+                "message": "Incorrect title",
+                "field": "title"
+            }],
+            resultCode: 1
+        })
+        return
+    }
     const newVideo = {
         author: "Artem",
         availableResolution: generateRandomResolution(),
@@ -57,15 +67,15 @@ videoRouter.delete('/:id', (req: Request, res: Response) => {
 videoRouter.put('/:id', (req: Request, res: Response) => {
     const {id} = req.params;
     const video: IVideo = req.body;
-    if (!video || typeof video.title !== 'string' || !video.title.trim()) {
+    if (!video || !video.title.trim() || video.title.length > 40) {
         res.status(400).send({
             errorsMessage: [{
                 "message": "Incorrect title",
                 "field": "title"
-            }]
+            }],
+            resultCode: 1
         })
         return
-
     }
 
     const foundVideo = videos.find((v) => v.id === +id);
