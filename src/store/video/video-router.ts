@@ -25,7 +25,7 @@ videoRouter.post('/', (req: Request, res: Response) => {
     }
     const newVideo = {
         author: video.author,
-        availableResolution: video.availableResolution,
+        availableResolutions: video.availableResolutions,
         canBeDownloaded: false,
         createdAt: new Date().toISOString(),
         id: +(new Date()),
@@ -34,7 +34,7 @@ videoRouter.post('/', (req: Request, res: Response) => {
     }
     videos.push(newVideo)
 // console.log("NEW VIDEO", typeof JSON.stringify(newVideo))
-    console.log("NEW", newVideo)
+    console.log("NEW", req.body.availableResolutions)
     res.status(201).set('Content-Type', 'text/plain').send(newVideo)
 
 })
@@ -98,8 +98,8 @@ videoRouter.put('/:id', (req: Request, res: Response) => {
     if (video.author) {
         foundVideo.author = video.author;
     }
-    if (video.availableResolution) {
-        foundVideo.availableResolution = video.availableResolution;
+    if (video.availableResolutions) {
+        foundVideo.availableResolutions = video.availableResolutions;
     }
     if (video.canBeDownloaded !== undefined) {
         foundVideo.canBeDownloaded = video.canBeDownloaded;

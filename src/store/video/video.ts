@@ -6,7 +6,7 @@ export interface IVideo {
     minAgeRestriction?: number | null
     createdAt: string
     publicationDate: string
-    availableResolution: IVideoResolution | string
+    availableResolutions: Array<IVideoResolution | string>
 }
 
 export enum IVideoResolution {
@@ -29,6 +29,7 @@ export const generateRandomResolution = (): string => {
 }
 
 export const generateRandomVideo = (id: number): IVideo => {
+    let randomResolution = generateRandomResolution()
     let res: IVideo = {
         id,
         title: `Video ${id}`,
@@ -37,7 +38,7 @@ export const generateRandomVideo = (id: number): IVideo => {
         minAgeRestriction: Math.floor(Math.random() * 18) || null,
         createdAt: new Date().toISOString(),
         publicationDate: new Date().toISOString(),
-        availableResolution: generateRandomResolution()
+        availableResolutions: [randomResolution]
     }
     return res
 }
