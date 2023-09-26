@@ -1,4 +1,4 @@
-import {IVideo} from "../store/video/video";
+import {IVideo, IVideoResolution} from "../store/video/video";
 
 interface ValidationError {
     message: string | null;
@@ -62,6 +62,17 @@ export function validateVideo(video: IVideo): ValidationError[] {
             message: 'Invalid availableResolutions format',
             field: 'availableResolutions'
         });
+    } else if (Array.isArray(video.availableResolutions)) {
+        for (const resolution of video.availableResolutions) {
+            if (!Object.values(IVideoResolution).includes(resolution)) {
+                errors.push({
+                    message: 'Invalid resolution format: ${resolution}',
+                field: 'availableResolutions'
+            });
+                break;
+            }
+        }
+
     }
 
     return errors;
