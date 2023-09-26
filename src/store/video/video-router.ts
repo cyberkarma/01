@@ -14,16 +14,23 @@ videoRouter.post('/', (req: Request, res: Response) => {
     currentDate.setDate(currentDate.getDate() + 1);
 
     const video: IVideo = req.body;
-    if (!video || !video.title || !video.title.trim() || video.title.length > 40) {
+    const errors = validateVideo(video)
+    if (!video || errors.length) {
         res.status(400).send({
-            errorsMessage: [{
-                "message": "Incorrect title",
-                "field": "title"
-            }],
-            resultCode: 1
+            errorsMessages: errors
         })
         return
     }
+    // if (!video || !video.title || !video.title.trim() || video.title.length > 40) {
+    //     res.status(400).send({
+    //         errorsMessage: [{
+    //             "message": "Incorrect title",
+    //             "field": "title"
+    //         }],
+    //         resultCode: 1
+    //     })
+    //     return
+    // }
     const newVideo = {
         author: video.author,
         availableResolutions: video.availableResolutions,
@@ -43,7 +50,6 @@ videoRouter.post('/', (req: Request, res: Response) => {
 
 //Read
 videoRouter.get('/', (req: Request, res: Response) => {
-    res.set('Content-Type', 'text/plain');
     res.send(videos)
 })
 
@@ -79,8 +85,8 @@ videoRouter.put('/:id', (req: Request, res: Response) => {
         res.status(400).send({
             errorsMessages: errors
         })
+        return
     }
-
     // if ((!video || !video.title || !video.title.trim() || video.title.length > 40) && typeof video.canBeDownloaded != "boolean") {
     //     res.status(400).send({
     //          errorsMessage: [{message:"Incorrect title", field:"title"},{
