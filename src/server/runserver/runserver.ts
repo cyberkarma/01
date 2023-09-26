@@ -14,7 +14,7 @@ export function runServer() {
    app.use('/videos', videoRouter)
     app.delete('/testing/all-data', (_, res:Response) => {
         videos.length = 0
-        res.status(204)
+        res.sendStatus(204)
     })
 
     app.listen(port, () => {
