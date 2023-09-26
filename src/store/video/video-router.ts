@@ -77,7 +77,7 @@ videoRouter.put('/:id', (req: Request, res: Response) => {
     const errors = validateVideo(video)
     if (!video || errors.length) {
         res.status(400).send({
-            errorsMessage: errors
+            errorsMessages: errors
         })
     }
 
