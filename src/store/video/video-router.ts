@@ -30,10 +30,9 @@ videoRouter.post('/', (req: Request, res: Response) => {
         id: +(new Date()),
         publicationDate: currentDate.toISOString(),
         title: video.title,
-        minAgeRestriction: video.minAgeRestriction || null
+        minAgeRestriction: null
     }
     videos.push(newVideo)
-// console.log("NEW VIDEO", typeof JSON.stringify(newVideo))
     console.log("NEW", video.availableResolutions)
     res.status(201).set('Content-Type', 'text/plain').send(newVideo)
 
@@ -41,6 +40,7 @@ videoRouter.post('/', (req: Request, res: Response) => {
 
 //Read
 videoRouter.get('/', (req: Request, res: Response) => {
+    //minagerest долежн быть в посте по дефолту налл
     res.send(videos)
 })
 

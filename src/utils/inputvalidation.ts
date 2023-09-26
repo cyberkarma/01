@@ -8,13 +8,6 @@ interface ValidationError {
 export function validateVideo(video: IVideo): ValidationError[] {
     const errors: ValidationError[] = [];
 
-    // if (typeof video.id !== 'number') {
-    //     errors.push({
-    //         message: 'Invalid id format',
-    //         field: 'id'
-    //     });
-    // }
-
     if (typeof video.title !== 'string' || video.title.trim() === '' || video.title.length > 40) {
         errors.push({
             message: 'Invalid title format',

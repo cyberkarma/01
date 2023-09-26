@@ -13,8 +13,8 @@ export function runServer() {
    app.use(bdMiddleware)
    app.use('/videos', videoRouter)
     app.delete('/testing/all-data', (_, res:Response) => {
-        res.send(204)
-
+        videos.length = 0
+        res.status(204)
     })
 
     app.listen(port, () => {
