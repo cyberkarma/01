@@ -21,16 +21,7 @@ videoRouter.post('/', (req: Request, res: Response) => {
         })
         return
     }
-    // if (!video || !video.title || !video.title.trim() || video.title.length > 40) {
-    //     res.status(400).send({
-    //         errorsMessage: [{
-    //             "message": "Incorrect title",
-    //             "field": "title"
-    //         }],
-    //         resultCode: 1
-    //     })
-    //     return
-    // }
+
     const newVideo = {
         author: video.author,
         availableResolutions: video.availableResolutions,
@@ -87,19 +78,6 @@ videoRouter.put('/:id', (req: Request, res: Response) => {
         })
         return
     }
-    // if ((!video || !video.title || !video.title.trim() || video.title.length > 40) && typeof video.canBeDownloaded != "boolean") {
-    //     res.status(400).send({
-    //          errorsMessage: [{message:"Incorrect title", field:"title"},{
-    //             message:"Incorrect canBeDownloaded",
-    //             field:"canBeDownloaded"
-    //         }]
-    //     })
-    //     return
-    //     res.status(400).send({
-    //         errorsMessages: [{ message: "blabla title", field: "title" }, { message: "blabla CBD", field: "canBeDownloaded" }]
-    //     })
-    //     return
-    // }
 
     const foundVideo = videos.find((v) => v.id === +id);
     if (!foundVideo) {

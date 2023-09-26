@@ -29,7 +29,7 @@ export function validateVideo(video: IVideo): ValidationError[] {
         });
     }
 
-    if (typeof video.canBeDownloaded !== 'boolean') {
+    if (typeof video.canBeDownloaded !== 'boolean' && video.canBeDownloaded) {
         errors.push({
             message: 'Invalid canBeDownloaded format',
             field: 'canBeDownloaded'
