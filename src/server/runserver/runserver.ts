@@ -1,11 +1,11 @@
 import express, {Response} from 'express'
-import {videoRouter} from "../../store/video/video-router";
+import {videoRouter, videos} from "../../store/video/video-router";
 import bodyParser from "body-parser";
 import {generateVideos} from "../../store/video/video";
 
 
 export function runServer() {
-    const videos = generateVideos(10)
+    // const videos = generateVideos(10)
     const app = express()
     const port = 3000
     const bdMiddleware = bodyParser({})
