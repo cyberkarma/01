@@ -22,7 +22,7 @@ export function validateVideo(video: IVideo): ValidationError[] {
         });
     }
 
-    if (typeof video.author !== 'string' || video.author.trim() === '') {
+    if (typeof video.author !== 'string' || video.author.trim() === '' || video.author.length > 20) {
         errors.push({
             message: 'Invalid author format',
             field: 'author'
