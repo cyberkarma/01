@@ -73,17 +73,28 @@ videoRouter.delete('/:id', (req: Request, res: Response) => {
 videoRouter.put('/:id', (req: Request, res: Response) => {
     const {id} = req.params;
     const video: IVideo = req.body;
-    if (!video || !video.title.trim() || video.title.length > 40) {
+
+    if ((!video || !video.title || !video.title.trim() || video.title.length > 40) && typeof video.canBeDownloaded != "boolean") {
         res.status(400).send({
             errorsMessage: [{
                 "message": "Incorrect title",
                 "field": "title"
-            }],
-            resultCode: 1
+            }, {
+                "message": "Incorrect canBeDownloaded",
+                "field": "canBeDownloaded"
+            }]
         })
         return
-    } else {
-        res.status(204)
+    }
+
+    if (!video || !video.title || !video.title.trim() || video.title.length > 40) {
+        res.status(400).send({
+            errorsMessage: [{
+                "message": "Incorrect title",
+                "field": "title"
+            }]
+        })
+        return
     }
 
     const foundVideo = videos.find((v) => v.id === +id);
