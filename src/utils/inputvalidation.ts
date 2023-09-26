@@ -29,6 +29,13 @@ export function validateVideo(video: IVideo): ValidationError[] {
         });
     }
 
+    if (typeof video.canBeDownloaded !== 'boolean') {
+        errors.push({
+            message: 'Invalid canBeDownloaded format',
+            field: 'canBeDownloaded'
+        });
+    }
+
     if (video.minAgeRestriction !== undefined && (typeof video.minAgeRestriction !== 'number' || video.minAgeRestriction < 1 || video.minAgeRestriction > 18)) {
         errors.push({
             message: 'Invalid minAgeRestriction format',
