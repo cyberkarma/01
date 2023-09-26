@@ -3,7 +3,7 @@ import {generateRandomResolution, generateVideos, IVideo} from "./video";
 import {validateVideo} from "../../utils/inputvalidation";
 
 
-const videos = generateVideos(10)
+const videos:IVideo[] = []
 
 export const videoRouter = Router({})
 
