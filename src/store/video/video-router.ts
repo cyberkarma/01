@@ -1,5 +1,6 @@
 import {Request, Response, Router} from "express";
 import {generateRandomResolution, generateVideos, IVideo} from "./video";
+import {validateVideo} from "../../utils/inputvalidation";
 
 
 const videos = generateVideos(10)
@@ -73,30 +74,26 @@ videoRouter.delete('/:id', (req: Request, res: Response) => {
 videoRouter.put('/:id', (req: Request, res: Response) => {
     const {id} = req.params;
     const video: IVideo = req.body;
-
-    if ((!video || !video.title || !video.title.trim() || video.title.length > 40) && typeof video.canBeDownloaded != "boolean") {
-        // res.status(400).send({
-        //      errorsMessage: [{message:"Incorrect title", field:"title"},{
-        //         message:"Incorrect canBeDownloaded",
-        //         field:"canBeDownloaded"
-        //     }]
-        // })
-        // return
+    const errors = validateVideo(video)
+    if (!video || errors.length) {
         res.status(400).send({
-            errorsMessages: [{ message: "blabla title", field: "title" }, { message: "blabla CBD", field: "canBeDownloaded" }]
+            errorsMessage: errors
         })
-        return
     }
 
-    if (!video || !video.title || !video.title.trim() || video.title.length > 40) {
-        res.status(400).send({
-            errorsMessage: [{
-                message: "Incorrect title",
-                field: "title"
-            }]
-        })
-        return
-    }
+    // if ((!video || !video.title || !video.title.trim() || video.title.length > 40) && typeof video.canBeDownloaded != "boolean") {
+    //     res.status(400).send({
+    //          errorsMessage: [{message:"Incorrect title", field:"title"},{
+    //             message:"Incorrect canBeDownloaded",
+    //             field:"canBeDownloaded"
+    //         }]
+    //     })
+    //     return
+    //     res.status(400).send({
+    //         errorsMessages: [{ message: "blabla title", field: "title" }, { message: "blabla CBD", field: "canBeDownloaded" }]
+    //     })
+    //     return
+    // }
 
     const foundVideo = videos.find((v) => v.id === +id);
     if (!foundVideo) {
