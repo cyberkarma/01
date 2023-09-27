@@ -4,14 +4,14 @@ import bodyParser from "body-parser";
 import {generateVideos} from "../../store/video/video";
 
 
-export function runServer() {
+export function runServer(app: express.Application) {
     // const videos = generateVideos(10)
-    const app = express()
+
     const port = 3000
     const bdMiddleware = bodyParser({})
 
    app.use(bdMiddleware)
-   app.use('/videos', videoRouter)
+   app.use(RouterPaths.videos, videoRouter)
     app.delete('/testing/all-data', (_, res:Response) => {
         videos.length = 0
         res.sendStatus(204)
@@ -21,4 +21,8 @@ export function runServer() {
         console.log(`Example app listening on port ${port}`)
     })
 
+}
+
+export const RouterPaths = {
+    videos: '/videos',
 }
