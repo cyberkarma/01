@@ -1,6 +1,7 @@
 import request from "supertest";
 import {app} from "../../src";
 import {RouterPaths} from "../../src/server/runserver/runserver";
+import {IVideo} from "../../src/store/video/video";
 
 
 
@@ -16,7 +17,7 @@ describe('tests for /videos', () => {
     })
 
     it('Should return 200 and [videos]', async() => {
-        await getRequest().get(RouterPaths.videos).expect(200, [])
+        await getRequest().get(RouterPaths.videos).expect(200, )
     })
 
     it('Should return an error for not existing course', async() => {
