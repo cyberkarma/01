@@ -1,4 +1,4 @@
-import {IVideo, IVideoResolution} from "../store/video/video";
+import {IVideo, IVideoResolution} from "../repositories/video/video";
 
 interface ValidationError {
     message: string | null;

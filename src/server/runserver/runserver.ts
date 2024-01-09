@@ -1,13 +1,9 @@
 import express, {Response} from 'express'
-import {videoRouter, videos} from "../../store/video/video-router";
-import bodyParser from "body-parser";
-import {generateVideos} from "../../store/video/video";
-import {blogRouter} from "../../store/blog/blog-router";
+import {videoRouter, videos} from "../../repositories/video/video-router";
+import {blogRouter} from "../../repositories/blogs/blog-router";
 
 
 export function runServer(app: express.Application) {
-    // const videos = generateVideos(10)
-
     const port = 3000
 
     app.use(express.json());
