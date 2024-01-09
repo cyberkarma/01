@@ -1,7 +1,7 @@
 import request from "supertest";
 import {app} from "../../src";
 import {RouterPaths} from "../../src/server/runserver/runserver";
-import {IVideo} from "../../src/store/video/video";
+import {IVideo} from "../../src/repositories/video/video";
 
 
 
