@@ -22,5 +22,28 @@ export const blogRepository = {
         blogs.push(newBlog)
         console.log("POST:", newBlog)
         return newBlog
-    }
+    },
+
+    updateBlog(id: string, blog: IBlogIM) {
+        const foundVideo = blogs.find((b) => b.id === id);
+        if (!foundVideo) {
+            return;
+        }
+        foundVideo.name = blog.name
+        foundVideo.description = blog.description
+        foundVideo.websiteUrl = blog.websiteUrl
+        return foundVideo
+
+    },
+
+    deleteBlog(id: string) {
+        for (let i = 0; i < blogs.length; i++) {
+            if (blogs[i].id === id) {
+                blogs.splice(i, 1)
+                return true
+            }
+        }
+        return false
+
+    },
 }

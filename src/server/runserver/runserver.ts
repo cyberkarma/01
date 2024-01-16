@@ -1,6 +1,7 @@
 import express, {Response} from 'express'
 import {videoRouter, videos} from "../../repositories/video/video-router";
 import {blogRouter} from "../../repositories/blogs/blog-router";
+import {postRouter} from "../../repositories/posts/post-router";
 
 
 export function runServer(app: express.Application) {
@@ -12,6 +13,8 @@ export function runServer(app: express.Application) {
 
     app.use(RouterPaths.videos, videoRouter)
     app.use(RouterPaths.blogs, blogRouter)
+    app.use(RouterPaths.posts, postRouter)
+
     app.delete('/testing/all-data', (_, res: Response) => {
         videos.length = 0
         res.sendStatus(204)
@@ -25,5 +28,6 @@ export function runServer(app: express.Application) {
 
 export const RouterPaths = {
     videos: '/videos',
-    blogs: '/blogs'
+    blogs: '/blogs',
+    posts: '/posts',
 }
