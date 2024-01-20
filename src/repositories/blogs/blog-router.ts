@@ -15,7 +15,7 @@ blogRouter.get('/:id',
     (req: Request, res: Response) => {
         const foundBlog = blogRepository.getBlogs(req.params.id)
         if(!foundBlog.length) {
-            res.sendStatus(404)
+            res.status(404)
         } else {
             res.send(foundBlog)
         }
@@ -26,7 +26,7 @@ blogRouter.post('/',
     inputValidationMiddleware,
     (req: Request, res: Response) => {
     const newBlog = blogRepository.createBlog(req.body)
-    res.sendStatus(201).send(newBlog)
+    res.status(201).send(newBlog)
 })
 
 blogRouter.put('/:id',
@@ -34,14 +34,14 @@ blogRouter.put('/:id',
     (req: Request, res: Response) => {
     const {id} = req.params;
     const newBlog = blogRepository.updateBlog(id, req.body)
-        res.sendStatus(204).send(newBlog)
+        res.status(204).send(newBlog)
     })
 
 blogRouter.delete('/:id', (req: Request, res: Response) => {
     const isDeleted = blogRepository.deleteBlog(req.params.id)
     if(isDeleted) {
-        res.sendStatus(204)
+        res.status(204)
     } else {
-        res.sendStatus(404)
+        res.status(404)
     }
 })
