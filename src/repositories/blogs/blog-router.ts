@@ -1,11 +1,9 @@
-import {Request, Response, Router, NextFunction} from "express";
-import {videoRepository} from "../video/video-repo";
-import {blogRepository, blogs} from "./blog-repo";
-import { body, validationResult, check } from "express-validator";
+import {Request, Response, Router} from "express";
+import {blogRepository} from "./blog-repo";
+import {blogValidationRules, inputValidationMiddleware} from "../../middlewares/input-validation-middleware";
 
 
 export const blogRouter = Router({})
-const blogInputValidatin =
 
 blogRouter.get('/',
     (req: Request, res: Response) => {
@@ -15,20 +13,35 @@ blogRouter.get('/',
 
 blogRouter.get('/:id',
     (req: Request, res: Response) => {
-    console.log(req.params.id, "IDIDI")
         const foundBlog = blogRepository.getBlogs(req.params.id)
-        res.send(foundBlog)
+        if(!foundBlog.length) {
+            res.sendStatus(404)
+        } else {
+            res.send(foundBlog)
+        }
     })
 
 blogRouter.post('/',
-    check('name').trim().notEmpty().isLength({max: 15}),
-    check('description').notEmpty().isLength({max: 500}),
-    check('websiteUrl').notEmpty().isURL().isLength({max: 100}),
+    blogValidationRules(),
+    inputValidationMiddleware,
     (req: Request, res: Response) => {
-        const errorsMessages = validationResult(req);
-        if (!errorsMessages.isEmpty()) {
-            res.status(400).json({ errorsMessages: errorsMessages.array() });
-        }
     const newBlog = blogRepository.createBlog(req.body)
-    res.send(newBlog)
+    res.sendStatus(201).send(newBlog)
+})
+
+blogRouter.put('/:id',
+    blogValidationRules(), inputValidationMiddleware,
+    (req: Request, res: Response) => {
+    const {id} = req.params;
+    const newBlog = blogRepository.updateBlog(id, req.body)
+        res.sendStatus(204).send(newBlog)
+    })
+
+blogRouter.delete('/:id', (req: Request, res: Response) => {
+    const isDeleted = blogRepository.deleteBlog(req.params.id)
+    if(isDeleted) {
+        res.sendStatus(204)
+    } else {
+        res.sendStatus(404)
+    }
 })
