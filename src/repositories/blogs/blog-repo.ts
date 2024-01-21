@@ -6,8 +6,7 @@ export const blogRepository = {
 
     getBlogs(id: string | undefined | null) {
         if(id && blogs.length) {
-            console.log('Here')
-            const foundBlogs = blogs.filter(b => b.id.indexOf(id) > -1);
+            const foundBlogs = blogs.filter(b => b.id === id);
             return foundBlogs.length > 0 ? foundBlogs : [];
         } else {
             return []
@@ -22,7 +21,6 @@ export const blogRepository = {
             websiteUrl: blog.websiteUrl
         }
         blogs.push(newBlog)
-        console.log("POST:", newBlog)
         return newBlog
     },
 
