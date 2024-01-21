@@ -15,7 +15,7 @@ blogRouter.get('/:id',
     (req: Request, res: Response) => {
         const foundBlog = blogRepository.getBlogs(req.params.id)
         if(!foundBlog.length) {
-            res.status(404)
+            res.status(404).send()
         } else {
             res.send(foundBlog[0])
         }
