@@ -55,8 +55,8 @@ blogRouter.put('/:id',
 blogRouter.delete('/:id', (req: Request, res: Response) => {
     const isDeleted = blogRepository.deleteBlog(req.params.id)
     if(isDeleted) {
-        res.status(204)
+        res.status(204).send()
     } else {
-        res.status(404)
+        res.status(404).send()
     }
 })
