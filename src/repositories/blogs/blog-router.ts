@@ -17,7 +17,7 @@ blogRouter.get('/:id',
         if(!foundBlog.length) {
             res.status(404)
         } else {
-            res.send(foundBlog)
+            res.send(foundBlog[0])
         }
     })
 
@@ -25,8 +25,23 @@ blogRouter.post('/',
     blogValidationRules(),
     inputValidationMiddleware,
     (req: Request, res: Response) => {
-    const newBlog = blogRepository.createBlog(req.body)
-    res.status(201).send(newBlog)
+        try {
+            // Добавьте отладочный вывод
+            console.log('Request Body:', req.body);
+
+            const newBlog = blogRepository.createBlog(req.body);
+
+            // Добавьте отладочный вывод
+            console.log('Created Blog:', newBlog);
+
+            res.status(201).send(newBlog);
+        } catch (error) {
+            // В случае ошибки добавьте отладочный вывод
+            console.error('Error creating blog:', error);
+            res.status(500).send({ error: 'Internal Server Error' });
+        }
+    // const newBlog = blogRepository.createBlog(req.body)
+    // res.status(201).send(newBlog)
 })
 
 blogRouter.put('/:id',
