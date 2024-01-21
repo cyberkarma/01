@@ -49,8 +49,14 @@ blogRouter.put('/:id',
     blogValidationRules(), inputValidationMiddleware,
     (req: Request, res: Response) => {
     const {id} = req.params;
-    const newBlog = blogRepository.updateBlog(id, req.body)
-        res.status(204).send(newBlog)
+        const updateResult = blogRepository.updateBlog(id, req.body);
+        if (!updateResult) {
+            // Если блог не был найден, вернуть код 404
+            res.status(404).send();
+        } else {
+            // Если блог успешно обновлен, вернуть код 204
+            res.status(204).send();
+        }
     })
 
 blogRouter.delete('/:id', (req: Request, res: Response) => {
