@@ -1,4 +1,5 @@
 export interface IBlogIM {
+    id?: string
     name: string //max15
     description: string //max500
     websiteUrl: string //max100 patternURL

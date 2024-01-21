@@ -15,7 +15,7 @@ export const blogRepository = {
 
     createBlog(blog: IBlogIM) {
         const newBlog: IBlogVM = {
-            id: Math.floor(Math.random() * 100).toString(),
+            id: blog.id || Math.floor(Math.random() * 100).toString(),
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl
@@ -26,14 +26,15 @@ export const blogRepository = {
     },
 
     updateBlog(id: string, blog: IBlogIM) {
-        const foundVideo = blogs.find((b) => b.id === id);
-        if (!foundVideo) {
+        const foundBlog = blogs.find((b) => b.id === id);
+        if (!foundBlog) {
             return;
         }
-        foundVideo.name = blog.name
-        foundVideo.description = blog.description
-        foundVideo.websiteUrl = blog.websiteUrl
-        return foundVideo
+
+        foundBlog.name = blog.name
+        foundBlog.description = blog.description
+        foundBlog.websiteUrl = blog.websiteUrl
+        return foundBlog
 
     },
 
