@@ -1,7 +1,7 @@
 import {generateBlogs, IBlogIM, IBlogVM} from "./blog";
 
 // export const blogs = generateBlogs(5);
-export const blogs = []
+export const blogs = generateBlogs(0);
 export const blogRepository = {
 
     getBlogs(id: string | undefined | null) {
