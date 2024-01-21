@@ -1,11 +1,11 @@
 import {generateBlogs, IBlogIM, IBlogVM} from "./blog";
 
 // export const blogs = generateBlogs(5);
-export const blogs = generateBlogs(0);
+export const blogs:IBlogVM[] = []
 export const blogRepository = {
 
     getBlogs(id: string | undefined | null) {
-        if(id) {
+        if(id && blogs.length) {
             console.log('Here')
             return blogs.filter(b => b.id.indexOf(id) > -1)
         } else {
