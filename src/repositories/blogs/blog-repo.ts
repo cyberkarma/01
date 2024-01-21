@@ -7,9 +7,10 @@ export const blogRepository = {
     getBlogs(id: string | undefined | null) {
         if(id && blogs.length) {
             console.log('Here')
-            return blogs.filter(b => b.id.indexOf(id) > -1)
+            const foundBlogs = blogs.filter(b => b.id.indexOf(id) > -1);
+            return foundBlogs.length > 0 ? foundBlogs : [];
         } else {
-            return blogs
+            return []
         }
     },
 

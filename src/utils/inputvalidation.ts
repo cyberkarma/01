@@ -1,12 +1,12 @@
 import {IVideo, IVideoResolution} from "../repositories/video/video";
 
-interface ValidationError {
+interface myValidationError {
     message: string | null;
     field: string | null;
 }
 
-export function validateVideo(video: IVideo): ValidationError[] {
-    const errors: ValidationError[] = [];
+export function validateVideo(video: IVideo): myValidationError[] {
+    const errors: myValidationError[] = [];
 
     if (typeof video.title !== 'string' || video.title.trim() === '' || video.title.length > 40) {
         errors.push({

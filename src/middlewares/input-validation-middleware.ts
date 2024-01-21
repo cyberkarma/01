@@ -11,11 +11,25 @@ export const blogValidationRules = () => {
 };
 
 export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const errorsMessages = validationResult(req);
-    if (!errorsMessages.isEmpty()) {
-        res.status(400).json({ errorsMessages: errorsMessages.array() });
-        return
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const errorsArray = errors.array().map(error => {
+            return {
+                message: error.msg,
+                field: error.msg
+            };
+        });
+
+        res.status(400).json({ errorsMessages: errorsArray });
     } else {
-        next()
+        next();
     }
+    // const errorsMessages = validationResult(req);
+    // if (!errorsMessages.isEmpty()) {
+    //     res.status(400).json({ errorsMessages: errorsMessages.array() });
+    //     return
+    // } else {
+    //     next()
+    // }
 }
