@@ -14,17 +14,32 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        const errorsArray = errors.array().map(error => {
-            return {
-                message: error.msg,
-                field: error.msg
-            };
-        });
+        const formattedErrors = errors.array({ onlyFirstError: true }).map(error => ({
+            message: error.msg,
+            field: error.msg,
+        }));
 
-        res.status(400).json({ errorsMessages: errorsArray });
+        res.status(400).json({ errorsMessages: formattedErrors });
     } else {
         next();
     }
+
+
+
+    // if (!errors.isEmpty()) {
+    //     const errorsArray = errors.array().map(error => {
+    //         return {
+    //             message: error.msg,
+    //             field: error.msg
+    //         };
+    //     });
+    //
+    //     res.status(400).json({ errorsMessages: errorsArray });
+    // } else {
+    //     next();
+    // }
+
+
     // const errorsMessages = validationResult(req);
     // if (!errorsMessages.isEmpty()) {
     //     res.status(400).json({ errorsMessages: errorsMessages.array() });

@@ -31,7 +31,6 @@ export const blogRepository = {
         if (!foundBlog) {
             return;
         }
-
         foundBlog.name = blog.name
         foundBlog.description = blog.description
         foundBlog.websiteUrl = blog.websiteUrl
