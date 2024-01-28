@@ -20,12 +20,12 @@ export const postValidationRules = () => {
         check('title').trim().notEmpty().withMessage('title!').isLength({max: 30}),
         check('shortDescription').notEmpty().withMessage('shortDescription!!!').isLength({max: 100}),
         check('content').notEmpty().withMessage('content!!!').isLength({max: 1000}),
-        check('blogID').notEmpty().withMessage('BLOG ID').custom((value, { req }) => {
-            if (!blogRepository.getBlogs(value)) {
-                throw new Error('blogId does not exist');
-            }
-            return true; // Валидация пройдена
-        })
+        // check('blogID').notEmpty().withMessage('BLOG ID').custom((value, { req }) => {
+        //     if (!blogRepository.getBlogs(value)) {
+        //         throw new Error('blogId does not exist');
+        //     }
+        //     return true; // Валидация пройдена
+        // })
     ]
 }
 
