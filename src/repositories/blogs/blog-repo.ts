@@ -9,7 +9,7 @@ export const blogRepository = {
             const foundBlogs = blogs.filter(b => b.id === id);
             return foundBlogs.length > 0 ? foundBlogs : [];
         } else {
-            return []
+            return blogs
         }
     },
 
