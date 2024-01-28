@@ -19,7 +19,7 @@ postRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 postRouter.post('/',
-    postValidationRules,
+    postValidationRules(),
     inputValidationMiddleware,
     (req: Request, res:Response) => {
     const newPost = postsRepository.createPost(req.body)
@@ -28,7 +28,7 @@ postRouter.post('/',
 })
 
 postRouter.put('/:id',
-    postValidationRules,
+    postValidationRules(),
     inputValidationMiddleware,
     (req: Request, res: Response) => {
     const {id} = req.params;
