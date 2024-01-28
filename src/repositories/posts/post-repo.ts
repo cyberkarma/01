@@ -1,8 +1,8 @@
 import {generatePosts, IPostIM, IPostVM} from "./post";
 
 
-// export const posts = generatePosts(5);
-export const posts: IPostVM[] = []
+export const posts = generatePosts(5);
+// export const posts: IPostVM[] = []
 
 export const postsRepository = {
     getPosts(id: string | undefined | null) {
