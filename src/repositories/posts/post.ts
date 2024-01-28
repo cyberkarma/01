@@ -3,10 +3,12 @@ export interface IPostIM {
     shortDescription: string; // max 100
     content: string; // max 1000
     blogId: string;
+    id?: string;
+    blogName?: string
 }
 
 export interface IPostVM extends IPostIM {
-    id: string;
+    id?: string;
     blogName: string;
 }
 
