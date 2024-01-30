@@ -19,7 +19,7 @@ export const postValidationRules = () => {
     return [
         check('title').trim().notEmpty().withMessage('title!').isLength({max: 30}),
         check('shortDescription').notEmpty().withMessage('shortDescription!!!').isLength({max: 100}),
-        check('content').notEmpty().withMessage('content!!!').isLength({max: 1000}),
+        check('content').trim().notEmpty().withMessage('content!!!').isLength({max: 1000}),
     ]
 }
 
