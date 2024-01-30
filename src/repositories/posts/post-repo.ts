@@ -36,6 +36,7 @@ export const postsRepository = {
         foundPost.shortDescription = post.shortDescription
         foundPost.content = post.content
         foundPost.blogId = post.blogId
+        console.log('updated post: ', foundPost)
         return foundPost
     },
     deletePost(id: string) {

@@ -20,19 +20,19 @@ export const postValidationRules = () => {
         check('title').trim().notEmpty().withMessage('title!').isLength({max: 30}),
         check('shortDescription').notEmpty().withMessage('shortDescription!!!').isLength({max: 100}),
         check('content').notEmpty().withMessage('content!!!').isLength({max: 1000}),
-        // check('blogID').notEmpty().withMessage('BLOG ID').custom((value, { req }) => {
-        //     if (!blogRepository.getBlogs(value)) {
-        //         throw new Error('blogId does not exist');
-        //     }
-        //     return true; // Валидация пройдена
-        // })
+        check('blogId').notEmpty().withMessage('BLOG ID').custom(( value ) => {
+            if (!blogRepository.getBlogs(value).length) {
+                console.log('Валидация не пройдена')
+                return false
+            }
+            return true; // Валидация пройдена
+        })
     ]
 }
 
 export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
     const errors = validationResult(req);
-    console.log(errors, 'ERRORS1')
 
     if (!errors.isEmpty()) {
         const formattedErrors = errors.array({ onlyFirstError: true }).map(error => {
@@ -40,7 +40,9 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
                 message: error.msg,
                 field: error.type === 'field' && error.path
             }
-        }); console.log(formattedErrors, 'ERRORS2')
+        });
+
+        console.log('Errors: ', errors)
 
         res.status(400).json({ errorsMessages: formattedErrors });
     } else {
