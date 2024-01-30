@@ -34,7 +34,6 @@ postRouter.post('/',
 
 postRouter.put('/:id',
     postValidationRules(),
-    postPostValidationRules(),
     inputValidationMiddleware,
     (req: Request, res: Response) => {
     const {id} = req.params;
