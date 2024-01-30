@@ -20,11 +20,17 @@ export const postValidationRules = () => {
         check('title').trim().notEmpty().withMessage('title!').isLength({max: 30}),
         check('shortDescription').notEmpty().withMessage('shortDescription!!!').isLength({max: 100}),
         check('content').notEmpty().withMessage('content!!!').isLength({max: 1000}),
+    ]
+}
+
+export const postPostValidationRules = () => {
+    return [
         check('blogId').notEmpty().withMessage('BLOG ID').custom(( value ) => {
             if (!blogRepository.getBlogs(value).length) {
-                console.log('Валидация не пройдена')
+                console.log('Value: ', value)
                 return false
             }
+            console.log('Value: ', value)
             return true; // Валидация пройдена
         })
     ]

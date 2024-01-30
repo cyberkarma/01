@@ -1,6 +1,10 @@
 import {Request, Response, Router} from "express";
 import {postsRepository} from "./post-repo";
-import {inputValidationMiddleware, postValidationRules} from "../../middlewares/input-validation-middleware";
+import {
+    inputValidationMiddleware,
+    postPostValidationRules,
+    postValidationRules
+} from "../../middlewares/input-validation-middleware";
 
 export const postRouter = Router({})
 
@@ -20,6 +24,7 @@ postRouter.get('/:id', (req: Request, res: Response) => {
 
 postRouter.post('/',
     postValidationRules(),
+    postPostValidationRules(),
     inputValidationMiddleware,
     (req: Request, res:Response) => {
     const newPost = postsRepository.createPost(req.body)
