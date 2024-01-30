@@ -5,6 +5,7 @@ import {
     postPostValidationRules,
     postValidationRules
 } from "../../middlewares/input-validation-middleware";
+import {basicAuth} from "../../middlewares/authorization-middleware";
 
 export const postRouter = Router({})
 
@@ -23,6 +24,7 @@ postRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 postRouter.post('/',
+    basicAuth,
     postValidationRules(),
     postPostValidationRules(),
     inputValidationMiddleware,
@@ -33,6 +35,7 @@ postRouter.post('/',
 })
 
 postRouter.put('/:id',
+    basicAuth,
     postValidationRules(),
     postPostValidationRules(),
     inputValidationMiddleware,
@@ -46,7 +49,7 @@ postRouter.put('/:id',
     }
 })
 
-postRouter.delete('/:id', (req: Request, res: Response) => {
+postRouter.delete('/:id',basicAuth, (req: Request, res: Response) => {
     const isDeleted = postsRepository.deletePost(req.params.id)
     if(isDeleted) {
         res.status(204).send()

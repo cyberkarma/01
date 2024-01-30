@@ -1,6 +1,7 @@
 import {Request, Response, Router} from "express";
 import {blogRepository} from "./blog-repo";
 import {blogValidationRules, inputValidationMiddleware} from "../../middlewares/input-validation-middleware";
+import {basicAuth} from "../../middlewares/authorization-middleware";
 
 
 export const blogRouter = Router({})
@@ -23,6 +24,7 @@ blogRouter.get('/:id',
     })
 
 blogRouter.post('/',
+    basicAuth,
     blogValidationRules(),
     inputValidationMiddleware,
     (req: Request, res: Response) => {
@@ -46,6 +48,7 @@ blogRouter.post('/',
 })
 
 blogRouter.put('/:id',
+    basicAuth,
     blogValidationRules(), inputValidationMiddleware,
     (req: Request, res: Response) => {
     const {id} = req.params;
@@ -59,7 +62,7 @@ blogRouter.put('/:id',
         }
     })
 
-blogRouter.delete('/:id', (req: Request, res: Response) => {
+blogRouter.delete('/:id',basicAuth, (req: Request, res: Response) => {
     const isDeleted = blogRepository.deleteBlog(req.params.id)
     if(isDeleted) {
         res.status(204).send()
