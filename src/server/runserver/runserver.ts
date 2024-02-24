@@ -8,7 +8,7 @@ dotenv.config()
 
 
 export async function runServer(app: express.Application) {
-    await runDb()
+    // await runDb()
 
     const port = process.env.PORT || 5000
 
