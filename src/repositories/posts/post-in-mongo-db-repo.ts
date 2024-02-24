@@ -13,6 +13,7 @@ export const postsRepository = {
     async getPostById(id: string) {
         const post = await postsCollection.findOne({id: id })
         if(post) {
+
             return post
         } else {
             return null
