@@ -3,6 +3,8 @@ export interface IBlogIM {
     name: string //max15
     description: string //max500
     websiteUrl: string //max100 patternURL
+    isMembership?: boolean
+    createdAt?: Date
 }
 
 export interface IBlogVM extends IBlogIM {

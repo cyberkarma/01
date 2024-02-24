@@ -5,7 +5,7 @@ import {generatePosts, IPostIM, IPostVM} from "./post";
 export const posts: IPostVM[] = []
 
 export const postsRepository = {
-    getPosts(id: string | undefined | null) {
+    async getPosts(id: string | undefined | null) {
         if(id) {
             console.log('Here')
             return posts.filter(p => p.id && p.id.indexOf(id) > -1);
@@ -14,7 +14,7 @@ export const postsRepository = {
         }
     },
 
-    createPost(post: IPostIM) {
+    async createPost(post: IPostIM) {
         const newPost: IPostVM = {
             id: post.id || Math.floor(Math.random() * 100).toString(),
             title: post.title,
@@ -27,7 +27,7 @@ export const postsRepository = {
         return newPost
     },
 
-    updatePost(id: string, post: IPostIM) {
+    async updatePost(id: string, post: IPostIM) {
         const foundPost = posts.find((p)=> p.id === id);
         if(!foundPost) {
             return
@@ -36,10 +36,9 @@ export const postsRepository = {
         foundPost.shortDescription = post.shortDescription
         foundPost.content = post.content
         foundPost.blogId = post.blogId
-        console.log('updated post: ', foundPost)
         return foundPost
     },
-    deletePost(id: string) {
+    async deletePost(id: string) {
         for (let i = 0; i < posts.length; i++) {
             if(posts[i].id === id) {
                 posts.splice(i, 1)

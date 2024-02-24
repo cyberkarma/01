@@ -1,10 +1,10 @@
 import {generateBlogs, IBlogIM, IBlogVM} from "./blog";
 
-// export const blogs = generateBlogs(5);
-export const blogs:IBlogVM[] = []
+export const blogs = generateBlogs(5);
+// export const blogs:IBlogVM[] = []
 export const blogRepository = {
 
-    getBlogs(id: string | undefined | null) {
+   async getBlogs(id: string | undefined | null) {
         if(id && blogs.length) {
             const foundBlogs = blogs.filter(b => b.id === id);
             return foundBlogs.length > 0 ? foundBlogs : [];
@@ -13,7 +13,7 @@ export const blogRepository = {
         }
     },
 
-    createBlog(blog: IBlogIM) {
+    async createBlog(blog: IBlogIM) {
         const newBlog: IBlogVM = {
             id: blog.id || Math.floor(Math.random() * 100).toString(),
             name: blog.name,
@@ -24,7 +24,7 @@ export const blogRepository = {
         return newBlog
     },
 
-    updateBlog(id: string, blog: IBlogIM) {
+    async updateBlog(id: string, blog: IBlogIM) {
         const foundBlog = blogs.find((b) => b.id === id);
         if (!foundBlog) {
             return;
@@ -36,7 +36,7 @@ export const blogRepository = {
 
     },
 
-    deleteBlog(id: string) {
+   async deleteBlog(id: string) {
         for (let i = 0; i < blogs.length; i++) {
             if (blogs[i].id === id) {
                 blogs.splice(i, 1)

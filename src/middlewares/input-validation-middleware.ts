@@ -1,6 +1,6 @@
 import { validationResult, check, FieldValidationError } from "express-validator";
 import {Request, Response, NextFunction} from "express";
-import {blogRepository} from "../repositories/blogs/blog-repo";
+import {blogRepository} from "../repositories/blogs/blog-in-memory-repo";
 
 type ValidationResultError = {
     [string: string]: [string];
@@ -25,8 +25,9 @@ export const postValidationRules = () => {
 
 export const postPostValidationRules = () => {
     return [
-        check('blogId').notEmpty().withMessage('BLOG ID').custom(( value ) => {
-            if (!blogRepository.getBlogs(value).length) {
+        check('blogId').notEmpty().withMessage('BLOG ID').custom(async ( value ) => {
+            const blogs = await blogRepository.getBlogs(value);
+            if (!blogs.length) {
                 console.log('Value: ', value)
                 return false
             }

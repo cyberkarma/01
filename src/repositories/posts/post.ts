@@ -10,6 +10,7 @@ export interface IPostIM {
 export interface IPostVM extends IPostIM {
     id?: string;
     blogName: string;
+    createdAt?: Date
 }
 
 function generateRandomString(maxLength: number): string {
