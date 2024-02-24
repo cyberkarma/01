@@ -8,7 +8,7 @@ dotenv.config();
 
 
 
-const mongoUri = process.env.MONGO_URL || 'mongodb+srv://icegroovekid:QFhy8kZGDYpIyyCZ@youtube.hv5zotg.mongodb.net/?retryWrites=true&w=majority'
+const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017'
 export const client = new MongoClient(mongoUri)
 console.log('Mongo local url:', mongoUri)
 
