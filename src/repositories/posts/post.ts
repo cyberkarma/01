@@ -1,16 +1,23 @@
+import {Document, WithId} from "mongodb";
+import {IBlogIM, IBlogVM} from "../blogs/blog";
+
 export interface IPostIM {
     title: string; // max 30
     shortDescription: string; // max 100
     content: string; // max 1000
     blogId: string;
-    id?: string;
-    blogName?: string;
+    // id?: string;
+    // blogName?: string;
 }
 
 export interface IPostVM extends IPostIM {
-    id?: string;
+    id: string;
     blogName: string;
     createdAt?: Date
+}
+export function preparePostResponse(doc: WithId<IPostIM>): IPostVM {
+    const { _id, ...rest } = doc;
+    return rest as IPostVM;
 }
 
 function generateRandomString(maxLength: number): string {

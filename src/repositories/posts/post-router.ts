@@ -6,6 +6,7 @@ import {
     postValidationRules
 } from "../../middlewares/input-validation-middleware";
 import {basicAuth} from "../../middlewares/authorization-middleware";
+import {preparePostResponse} from "./post";
 
 export const postRouter = Router({})
 
@@ -19,7 +20,8 @@ postRouter.get('/:id', async (req: Request, res: Response) => {
     if(!foundPost) {
         res.status(404).send()
     } else {
-        res.send(foundPost)
+        const responsePost = preparePostResponse(foundPost)
+        res.send(responsePost)
     }
 })
 

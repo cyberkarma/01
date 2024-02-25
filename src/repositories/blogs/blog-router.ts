@@ -2,7 +2,7 @@ import {Request, Response, Router} from "express";
 import {blogValidationRules, inputValidationMiddleware} from "../../middlewares/input-validation-middleware";
 import {basicAuth} from "../../middlewares/authorization-middleware";
 import {blogRepository} from "./blog-in-mongo-db-repo";
-import {IBlogVM, prepareResponse} from "./blog";
+import {IBlogVM, prepareBlogResponse} from "./blog";
 // import {blogRepository} from "./blog-in-memory-repo";
 
 
@@ -22,7 +22,7 @@ blogRouter.get('/:id',
             console.log('404')
             res.status(404).send()
         } else {
-            const responseBlog = prepareResponse(foundBlog)
+            const responseBlog = prepareBlogResponse(foundBlog)
             res.send(responseBlog)
         }
     })
@@ -35,7 +35,7 @@ blogRouter.post('/',
         try {
             const newBlog = await blogRepository.createBlog(req.body);
             if(newBlog) {
-                const responseBlog = prepareResponse(newBlog)
+                const responseBlog = prepareBlogResponse(newBlog)
                 res.status(201).send(responseBlog);
             }
         } catch (error) {

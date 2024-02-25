@@ -12,7 +12,7 @@ export interface IBlogVM extends IBlogIM {
     id: string
 }
 
-export function prepareResponse<T extends Document>(doc: WithId<IBlogIM>): IBlogVM {
+export function prepareBlogResponse(doc: WithId<IBlogIM>): IBlogVM {
     const { _id, ...rest } = doc;
     return rest as IBlogVM;
 }

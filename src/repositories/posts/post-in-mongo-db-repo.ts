@@ -21,18 +21,19 @@ export const postsRepository = {
     },
 
     async createPost(post: IPostIM) {
+        const genId = Math.floor(Math.random() * 100).toString()
         const newPost: IPostVM = {
-            id: post.id || Math.floor(Math.random() * 100).toString(),
+            id: genId,
             title: post.title,
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
-            blogName: post.blogName || '',
+            blogName: '',
             createdAt: new Date(),
         }
         await postsCollection.insertOne(newPost)
 
-        return newPost
+        return postsCollection.findOne({id: genId})
     },
 
     async updatePost(id: string, post: IPostIM) {
