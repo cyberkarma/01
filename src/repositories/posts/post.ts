@@ -5,7 +5,6 @@ export interface IPostIM {
     blogId: string;
     id?: string;
     blogName?: string;
-    _id?: string;
 }
 
 export interface IPostVM extends IPostIM {

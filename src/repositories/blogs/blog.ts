@@ -5,7 +5,6 @@ export interface IBlogIM {
     websiteUrl: string //max100 patternURL
     isMembership?: boolean
     createdAt?: Date
-    _id?: string
 }
 
 export interface IBlogVM extends IBlogIM {
