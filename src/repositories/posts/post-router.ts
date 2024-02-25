@@ -12,7 +12,10 @@ export const postRouter = Router({})
 
 postRouter.get('/', async (req: Request, res: Response) => {
     const foundPosts = await postsRepository.getPosts(req.query.title?.toString())
-    res.send(foundPosts)
+    const formattedPosts = foundPosts.map(el => {
+        return preparePostResponse(el)
+    })
+    res.send(formattedPosts)
 })
 
 postRouter.get('/:id', async (req: Request, res: Response) => {

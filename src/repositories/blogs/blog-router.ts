@@ -11,7 +11,10 @@ export const blogRouter = Router({})
 blogRouter.get('/',
     async (req: Request, res: Response) => {
         const foundBlogs = await blogRepository.getBlogs(req.query.name?.toString())
-        res.send(foundBlogs)
+        const formattedBlogs = foundBlogs.map(el => {
+            return prepareBlogResponse(el)
+        })
+        res.send(formattedBlogs)
 })
 
 blogRouter.get('/:id',
