@@ -1,5 +1,6 @@
+import { WithId, Document } from 'mongodb';
 export interface IBlogIM {
-    id?: string
+    // id?: string
     name: string //max15
     description: string //max500
     websiteUrl: string //max100 patternURL
@@ -9,6 +10,11 @@ export interface IBlogIM {
 
 export interface IBlogVM extends IBlogIM {
     id: string
+}
+
+export function prepareResponse<T extends Document>(doc: WithId<IBlogIM>): IBlogVM {
+    const { _id, ...rest } = doc;
+    return rest as IBlogVM;
 }
 
 function generateRandomString(maxLength: number): string {

@@ -28,8 +28,9 @@ export const blogRepository = {
     },
 
     async createBlog(blog: IBlogIM) {
+       const genId = Math.floor(Math.random() * 100).toString()
         const newBlog: IBlogVM = {
-            id: blog.id || Math.floor(Math.random() * 100).toString(),
+            id: genId,
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
@@ -37,8 +38,8 @@ export const blogRepository = {
             createdAt: new Date(),
         }
         await blogsCollection.insertOne(newBlog)
-
-        return newBlog
+        return blogsCollection.findOne({id: genId})
+        // return newBlog
     },
 
     async updateBlog(id: string, blog: IBlogIM) {

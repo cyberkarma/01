@@ -15,7 +15,7 @@ export const blogRepository = {
 
     async createBlog(blog: IBlogIM) {
         const newBlog: IBlogVM = {
-            id: blog.id || Math.floor(Math.random() * 100).toString(),
+            id: Math.floor(Math.random() * 100).toString(),
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl

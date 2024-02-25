@@ -12,8 +12,8 @@ const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017'
 export const client = new MongoClient(mongoUri)
 console.log('Mongo local url:', mongoUri)
 
-export const blogsCollection = client.db('blogger-platform').collection<IBlogIM>('blogs', {raw: true})
-export const postsCollection = client.db('blogger-platform').collection<IPostIM>('posts', {raw: true})
+export const blogsCollection = client.db('blogger-platform').collection<IBlogIM>('blogs')
+export const postsCollection = client.db('blogger-platform').collection<IPostIM>('posts')
 
 export const runDb = async () => {
     try {
