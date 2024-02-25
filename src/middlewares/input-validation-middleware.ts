@@ -1,6 +1,6 @@
-import { validationResult, check, FieldValidationError } from "express-validator";
+import { validationResult, check, FieldValidationError, } from "express-validator";
 import {Request, Response, NextFunction} from "express";
-import {blogRepository} from "../repositories/blogs/blog-in-memory-repo";
+import {blogRepository} from "../repositories/blogs/blog-in-mongo-db-repo";
 
 type ValidationResultError = {
     [string: string]: [string];
@@ -26,13 +26,14 @@ export const postValidationRules = () => {
 export const postPostValidationRules = () => {
     return [
         check('blogId').notEmpty().withMessage('BLOG ID').custom(async ( value ) => {
-            const blogs = await blogRepository.getBlogs(value);
-            if (!blogs.length) {
-                console.log('Value: ', value)
-                return false
+            const foundBlog = await blogRepository.getBlogsById(value);
+            if (foundBlog) {
+                console.log('Блог найден: ', foundBlog)
+                return true
             }
-            console.log('Value: ', value)
-            return true; // Валидация пройдена
+            console.log('Блог не найден ', foundBlog)
+            throw new Error('blogId');
+            return false; // Валидация не пройдена
         })
     ]
 }
@@ -42,6 +43,7 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+        console.log('Array of errors', errors)
         const formattedErrors = errors.array({ onlyFirstError: true }).map(error => {
             return {
                 message: error.msg,
