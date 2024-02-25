@@ -32,7 +32,10 @@ postRouter.post('/',
     inputValidationMiddleware,
     async (req: Request, res:Response) => {
     const newPost = await postsRepository.createPost(req.body)
-    res.status(201).send(newPost)
+        if(newPost) {
+            const responsePost = preparePostResponse(newPost)
+            res.status(201).send(responsePost)
+        }
 })
 
 postRouter.put('/:id',
