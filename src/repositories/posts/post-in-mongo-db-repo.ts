@@ -28,7 +28,8 @@ export const postsRepository = {
             content: post.content,
             blogId: post.blogId,
             blogName: post.blogName || '',
-            createdAt: new Date()
+            createdAt: new Date(),
+            _id: undefined
         }
         await postsCollection.insertOne(newPost)
 

@@ -4,7 +4,8 @@ export interface IPostIM {
     content: string; // max 1000
     blogId: string;
     id?: string;
-    blogName?: string
+    blogName?: string;
+    _id?: string;
 }
 
 export interface IPostVM extends IPostIM {
