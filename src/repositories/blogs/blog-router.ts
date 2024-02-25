@@ -31,7 +31,7 @@ blogRouter.get('/:id',
     })
 
 blogRouter.post('/',
-    // basicAuth,
+    basicAuth,
     blogValidationRules(),
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
@@ -47,7 +47,7 @@ blogRouter.post('/',
 })
 
 blogRouter.put('/:id',
-    // basicAuth,
+    basicAuth,
     blogValidationRules(), inputValidationMiddleware,
     async (req: Request, res: Response) => {
     const {id} = req.params;
@@ -60,7 +60,7 @@ blogRouter.put('/:id',
     })
 
 blogRouter.delete('/:id',
-    // basicAuth,
+    basicAuth,
     async (req: Request, res: Response) => {
     const isDeleted = await blogRepository.deleteBlog(req.params.id)
     if(isDeleted) {

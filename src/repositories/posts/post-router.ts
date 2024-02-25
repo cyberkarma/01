@@ -29,7 +29,7 @@ postRouter.get('/:id', async (req: Request, res: Response) => {
 })
 
 postRouter.post('/',
-    // basicAuth,
+    basicAuth,
     postValidationRules(),
     postPostValidationRules(),
     inputValidationMiddleware,
@@ -42,7 +42,7 @@ postRouter.post('/',
 })
 
 postRouter.put('/:id',
-    // basicAuth,
+    basicAuth,
     postValidationRules(),
     postPostValidationRules(),
     inputValidationMiddleware,
@@ -57,7 +57,7 @@ postRouter.put('/:id',
 })
 
 postRouter.delete('/:id',
-    // basicAuth,
+    basicAuth,
     async (req: Request, res: Response) => {
     const isDeleted = await postsRepository.deletePost(req.params.id)
     if(isDeleted) {
