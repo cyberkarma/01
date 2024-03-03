@@ -1,4 +1,4 @@
-import {generateBlogs, IBlogIM, IBlogVM} from "./blog";
+import {generateBlogs, IBlogIM, IBlogVM} from "../../blog";
 
 export const blogs = generateBlogs(5);
 // export const blogs:IBlogVM[] = []

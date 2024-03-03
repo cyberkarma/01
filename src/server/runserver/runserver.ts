@@ -1,6 +1,6 @@
 import express, {Response} from 'express'
-import {blogRouter} from "../../repositories/blogs/blog-router";
-import {postRouter} from "../../repositories/posts/post-router";
+import {blogRouter} from "../../routes/blog-router";
+import {postRouter} from "../../routes/post-router";
 import {runDb} from "../../repositories/db";
 import dotenv from  'dotenv'
 

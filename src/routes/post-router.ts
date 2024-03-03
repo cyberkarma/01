@@ -1,12 +1,12 @@
 import {Request, Response, Router} from "express";
-import {postsRepository} from "./post-in-mongo-db-repo";
+import {postsRepository} from "../repositories/posts/post-in-mongo-db-repo";
 import {
     inputValidationMiddleware,
     postPostValidationRules,
     postValidationRules
-} from "../../middlewares/input-validation-middleware";
-import {basicAuth} from "../../middlewares/authorization-middleware";
-import {preparePostResponse} from "./post";
+} from "../middlewares/input-validation-middleware";
+import {basicAuth} from "../middlewares/authorization-middleware";
+import {preparePostResponse} from "../post";
 
 export const postRouter = Router({})
 

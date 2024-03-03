@@ -1,5 +1,5 @@
 import {Document, WithId} from "mongodb";
-import {IBlogIM, IBlogVM} from "../blogs/blog";
+import {IBlogIM, IBlogVM} from "./blog";
 
 export interface IPostIM {
     title: string; // max 30

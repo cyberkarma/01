@@ -1,11 +1,13 @@
-import {IPostIM, IPostVM} from "./post";
+import {IPostIM, IPostVM} from "../../post";
 import {postsCollection} from "../db";
 
 
 export const postsRepository = {
     async getPosts(title: string | undefined | null) {
+        let searchKey = {}
+        if (title) searchKey = {blogId: title};
         if(title) {
-            return postsCollection.find({title: {$regex: title}}).toArray()
+            return postsCollection.find(searchKey).toArray()
         } else {
             return postsCollection.find({}).toArray()
         }

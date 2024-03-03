@@ -1,6 +1,7 @@
 import { validationResult, check, FieldValidationError, } from "express-validator";
 import {Request, Response, NextFunction} from "express";
 import {blogRepository} from "../repositories/blogs/blog-in-mongo-db-repo";
+import {blogQueryRepository} from "../repositories/blogs/blog-query-in-mongo-repo";
 
 type ValidationResultError = {
     [string: string]: [string];
@@ -26,7 +27,7 @@ export const postValidationRules = () => {
 export const postPostValidationRules = () => {
     return [
         check('blogId').notEmpty().withMessage('BLOG ID').custom(async ( value ) => {
-            const foundBlog = await blogRepository.getBlogsById(value);
+            const foundBlog = await blogQueryRepository.getBlogsById(value);
             if (foundBlog) {
                 console.log('Блог найден: ', foundBlog)
                 return true

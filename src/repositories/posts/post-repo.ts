@@ -1,4 +1,4 @@
-import {generatePosts, IPostIM, IPostVM} from "./post";
+import {generatePosts, IPostIM, IPostVM} from "../../post";
 
 
 // export const posts = generatePosts(5);

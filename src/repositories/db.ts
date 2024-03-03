@@ -1,7 +1,7 @@
 import { MongoClient, ObjectId } from 'mongodb'
-import {IBlogIM} from "./blogs/blog";
+import {IBlogIM} from "../blog";
 import * as dotenv from 'dotenv';
-import {IPostIM} from "./posts/post";
+import {IPostIM} from "../post";
 dotenv.config();
 
 
