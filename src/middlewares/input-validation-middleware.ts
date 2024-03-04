@@ -1,4 +1,4 @@
-import { validationResult, check, FieldValidationError, } from "express-validator";
+import { validationResult, check, FieldValidationError, param } from "express-validator";
 import {Request, Response, NextFunction} from "express";
 import {blogRepository} from "../repositories/blogs/blog-in-mongo-db-repo";
 import {blogQueryRepository} from "../repositories/blogs/blog-query-in-mongo-repo";
@@ -24,18 +24,33 @@ export const postValidationRules = () => {
     ]
 }
 
+export const BlogPostValidationRules = () => {
+    return [
+        param('id')
+            .custom(async (blogId) => {
+                const foundBlog = await blogQueryRepository.getBlogsById(blogId);
+                if (foundBlog) {
+                    // console.log('Блог найден из параметров: ', foundBlog)
+                    return true
+                }
+                // console.log('Блог не найден из параметров ', foundBlog)
+                throw new Error('blogId');
+                return false; // Валидация не пройдена
+            })
+    ]
+}
 export const postPostValidationRules = () => {
     return [
-        check('blogId').notEmpty().withMessage('BLOG ID').custom(async ( value ) => {
-            const foundBlog = await blogQueryRepository.getBlogsById(value);
+        check('blogId').notEmpty().withMessage('BLOG ID').custom(async ( blogId ) => {
+            const foundBlog = await blogQueryRepository.getBlogsById(blogId);
             if (foundBlog) {
-                console.log('Блог найден: ', foundBlog)
+                // console.log('Блог найден: ', foundBlog)
                 return true
             }
-            console.log('Блог не найден ', foundBlog)
+            // console.log('Блог не найден ', foundBlog)
             throw new Error('blogId');
             return false; // Валидация не пройдена
-        })
+        }),
     ]
 }
 

@@ -16,12 +16,12 @@ export const postsRepository = {
 
     async createPost(post: IPostIM) {
         const newPost: IPostVM = {
-            id: post.id || Math.floor(Math.random() * 100).toString(),
+            id: Math.floor(Math.random() * 100).toString(),
             title: post.title,
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
-            blogName: post.blogName || ''
+            blogName: ''
         }
         posts.push(newPost)
         return newPost

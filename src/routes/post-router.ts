@@ -1,5 +1,4 @@
 import {Request, Response, Router} from "express";
-import {postsRepository} from "../repositories/posts/post-in-mongo-db-repo";
 import {
     inputValidationMiddleware,
     postPostValidationRules,
@@ -7,11 +6,13 @@ import {
 } from "../middlewares/input-validation-middleware";
 import {basicAuth} from "../middlewares/authorization-middleware";
 import {preparePostResponse} from "../post";
+import {postsService} from "../service/posts-service";
+import {postQueryRepository} from "../repositories/posts/post-query-in-mongo-repo";
 
 export const postRouter = Router({})
 
 postRouter.get('/', async (req: Request, res: Response) => {
-    const foundPosts = await postsRepository.getPosts(req.query.title?.toString())
+    const foundPosts = await postQueryRepository.getPosts(req.query.title?.toString())
     const formattedPosts = foundPosts.map(el => {
         return preparePostResponse(el)
     })
@@ -19,7 +20,7 @@ postRouter.get('/', async (req: Request, res: Response) => {
 })
 
 postRouter.get('/:id', async (req: Request, res: Response) => {
-    const foundPost = await postsRepository.getPostById(req.params.id)
+    const foundPost = await postQueryRepository.getPostById(req.params.id)
     if(!foundPost) {
         res.status(404).send()
     } else {
@@ -29,12 +30,12 @@ postRouter.get('/:id', async (req: Request, res: Response) => {
 })
 
 postRouter.post('/',
-    basicAuth,
+    // basicAuth,
     postValidationRules(),
     postPostValidationRules(),
     inputValidationMiddleware,
     async (req: Request, res:Response) => {
-    const newPost = await postsRepository.createPost(req.body)
+    const newPost = await postsService.createPost(req.body)
         if(newPost) {
             const responsePost = preparePostResponse(newPost)
             res.status(201).send(responsePost)
@@ -42,13 +43,13 @@ postRouter.post('/',
 })
 
 postRouter.put('/:id',
-    basicAuth,
+    // basicAuth,
     postValidationRules(),
     postPostValidationRules(),
     inputValidationMiddleware,
    async (req: Request, res: Response) => {
     const {id} = req.params;
-    const updateResult = await postsRepository.updatePost(id, req.body);
+    const updateResult = await postsService.updatePost(id, req.body);
     if(!updateResult) {
         res.status(404).send()
     } else {
@@ -57,9 +58,9 @@ postRouter.put('/:id',
 })
 
 postRouter.delete('/:id',
-    basicAuth,
+    // basicAuth,
     async (req: Request, res: Response) => {
-    const isDeleted = await postsRepository.deletePost(req.params.id)
+    const isDeleted = await postsService.deletePost(req.params.id)
     if(isDeleted) {
         res.status(204).send()
     } else {

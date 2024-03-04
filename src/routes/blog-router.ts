@@ -1,10 +1,18 @@
 import {Request, Response, Router} from "express";
-import {blogValidationRules, inputValidationMiddleware} from "../middlewares/input-validation-middleware";
+import {
+    BlogPostValidationRules,
+    blogValidationRules,
+    inputValidationMiddleware,
+    postPostValidationRules
+} from "../middlewares/input-validation-middleware";
 import {basicAuth} from "../middlewares/authorization-middleware";
 import {prepareBlogResponse} from "../blog";
 import {blogsService} from "../service/blogs-service";
 import {postsRepository} from "../repositories/posts/post-in-mongo-db-repo";
 import {preparePostResponse} from "../post";
+import {postQueryRepository} from "../repositories/posts/post-query-in-mongo-repo";
+import {blogQueryRepository} from "../repositories/blogs/blog-query-in-mongo-repo";
+import {postsService} from "../service/posts-service";
 
 
 export const blogRouter = Router({})
@@ -20,21 +28,21 @@ blogRouter.get('/',
             pageSize: query.pageSize || 10
         }
 
-        const foundBlogs = await blogsService.getBlogs(req.query.name?.toString())
+        const foundBlogs = await blogQueryRepository.getBlogs(req.query.name?.toString())
         const formattedBlogs = foundBlogs.map(el => {
             return prepareBlogResponse(el)
         })
         res.send({
             pagesCount: 0,
-            page: 0,
-            pageSize: 0,
+            page: sortData.pageNumber,
+            pageSize: sortData.pageSize,
             totalCount: 0,
             items: formattedBlogs})
 })
 
 blogRouter.get('/:id',
     async (req: Request, res: Response) => {
-        const foundBlog = await blogsService.getBlogsById(req.params.id)
+        const foundBlog = await blogQueryRepository.getBlogsById(req.params.id)
 
         if(!foundBlog) {
             console.log('404')
@@ -46,7 +54,7 @@ blogRouter.get('/:id',
     })
 blogRouter.get('/:id/posts',
     async (req: Request, res: Response) => {
-        const foundPosts = await postsRepository.getPosts(req.params.id)
+        const foundPosts = await postQueryRepository.getPosts(req.params.id)
         if(!foundPosts) {
             res.status(404).send()
         } else {
@@ -72,6 +80,24 @@ blogRouter.post('/',
             res.status(500).send({ error: 'Internal Server Error' });
         }
 })
+
+blogRouter.post('/:id/posts',
+    // basicAuth,
+    BlogPostValidationRules(),
+    inputValidationMiddleware,
+    async (req: Request, res: Response) => {
+        try {
+            const newPost = await postsService.createPost(req.body, req.params.id);
+            if(newPost) {
+                const responsePost = preparePostResponse(newPost)
+                res.status(201).send(responsePost);
+            } else {
+                res.sendStatus(404)
+            }
+        } catch (error) {
+            res.status(500).send({ error: 'Internal Server Error' });
+        }
+    })
 
 blogRouter.put('/:id',
     // basicAuth,
