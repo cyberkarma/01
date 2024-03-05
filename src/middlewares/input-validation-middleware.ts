@@ -27,18 +27,15 @@ export const postValidationRules = () => {
 export const BlogPostValidationRules = () => {
     return [
         param('id')
-            .custom(async (blogId) => {
+            .custom(async (blogId, { req }) => {
                 const foundBlog = await blogQueryRepository.getBlogsById(blogId);
-                if (foundBlog) {
-                    // console.log('Блог найден из параметров: ', foundBlog)
-                    return true
+                if (!foundBlog) {
+                    throw new Error('blogId not found'); // Измените сообщение об ошибке
                 }
-                // console.log('Блог не найден из параметров ', foundBlog)
-                throw new Error('blogId');
-                return false; // Валидация не пройдена
+                return true;
             })
-    ]
-}
+    ];
+};
 export const postPostValidationRules = () => {
     return [
         check('blogId').notEmpty().withMessage('BLOG ID').custom(async ( blogId ) => {
@@ -59,7 +56,8 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        console.log('Array of errors', errors)
+        const blogNotFoundError = errors.array().find(error => error.msg === 'blogId not found');
+
         const formattedErrors = errors.array({ onlyFirstError: true }).map(error => {
             return {
                 message: error.msg,
@@ -69,7 +67,7 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
 
         console.log('Errors: ', errors)
 
-        res.status(400).json({ errorsMessages: formattedErrors });
+        res.status(blogNotFoundError ? 404 : 400).json({ errorsMessages: formattedErrors });
     } else {
         next();
     }
