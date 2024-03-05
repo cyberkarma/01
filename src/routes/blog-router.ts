@@ -3,7 +3,7 @@ import {
     BlogPostValidationRules,
     blogValidationRules,
     inputValidationMiddleware,
-    postPostValidationRules
+    postPostValidationRules, postValidationRules
 } from "../middlewares/input-validation-middleware";
 import {basicAuth} from "../middlewares/authorization-middleware";
 import {prepareBlogResponse} from "../blog";
@@ -53,6 +53,8 @@ blogRouter.get('/:id',
         }
     })
 blogRouter.get('/:id/posts',
+    BlogPostValidationRules(),
+    inputValidationMiddleware,
     async (req: Request, res: Response) => {
         const foundPosts = await postQueryRepository.getPosts(req.params.id)
         if(!foundPosts) {
@@ -84,6 +86,7 @@ blogRouter.post('/',
 blogRouter.post('/:id/posts',
     basicAuth,
     BlogPostValidationRules(),
+    postValidationRules(),
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
         try {
