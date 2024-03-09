@@ -7,12 +7,12 @@ export const postQueryRepository = {
         if(title) {
             return {
                 posts: postsCollection.find(searchKey).toArray(),
-                totalCount: 10
+                totalCount: postsCollection.countDocuments(searchKey)
             }
         } else {
             return {
                 posts: postsCollection.find().toArray(),
-                totalCount: 10
+                totalCount: postsCollection.countDocuments()
             }
         }
     },

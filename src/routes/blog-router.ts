@@ -73,10 +73,10 @@ blogRouter.get('/:id/posts',
                 return preparePostResponse(el)
             })
             res.send({
-                pagesCount: Math.ceil(totalCount / +sortData.pageSize),
+                pagesCount: Math.ceil(await totalCount / +sortData.pageSize),
                 page: sortData.pageNumber,
                 pageSize: sortData.pageSize,
-                totalCount: totalCount,
+                totalCount: await totalCount,
                 items: responsePosts})
         }
     })
