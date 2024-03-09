@@ -56,7 +56,15 @@ blogRouter.get('/:id/posts',
     BlogPostValidationRules(),
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const {posts} = await postQueryRepository.getPosts(req.params.id)
+        const query = req.query
+        const sortData = {
+            sortBy: query.sortBy || "createdAt",
+            sortDirection: query.sortDirection || "desc",
+            pageNumber: query.pageNumber || 1,
+            pageSize: query.pageSize || 10
+        }
+
+        const {posts, totalCount} = await postQueryRepository.getPosts(req.params.id)
         const foundPosts = await posts
         if(!foundPosts) {
             res.status(404).send()
@@ -64,7 +72,12 @@ blogRouter.get('/:id/posts',
             const responsePosts = foundPosts.map((el) => {
                 return preparePostResponse(el)
             })
-            res.send(responsePosts)
+            res.send({
+                pagesCount: Math.ceil(totalCount / +sortData.pageSize),
+                page: sortData.pageNumber,
+                pageSize: sortData.pageSize,
+                totalCount: totalCount,
+                items: responsePosts})
         }
     })
 
