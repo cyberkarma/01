@@ -5,9 +5,15 @@ export const postQueryRepository = {
         let searchKey = {}
         if (title) searchKey = {blogId: title};
         if(title) {
-            return postsCollection.find(searchKey).toArray()
+            return {
+                posts: postsCollection.find(searchKey).toArray(),
+                totalCount: 10
+            }
         } else {
-            return postsCollection.find({}).toArray()
+            return {
+                posts: postsCollection.find().toArray(),
+                totalCount: 10
+            }
         }
     },
     async getPostById(id: string) {

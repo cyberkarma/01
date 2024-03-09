@@ -28,15 +28,15 @@ blogRouter.get('/',
             pageSize: query.pageSize || 10
         }
 
-        const foundBlogs = await blogQueryRepository.getBlogs(req.query.name?.toString())
-        const formattedBlogs = foundBlogs.map(el => {
+        const {blogs, totalCount} = await blogQueryRepository.getBlogs(req.query.name?.toString())
+        const formattedBlogs = (await blogs).map(el => {
             return prepareBlogResponse(el)
         })
         res.send({
-            pagesCount: 0,
+            pagesCount: Math.ceil(totalCount / +sortData.pageSize),
             page: sortData.pageNumber,
             pageSize: sortData.pageSize,
-            totalCount: 0,
+            totalCount: totalCount,
             items: formattedBlogs})
 })
 
@@ -56,7 +56,8 @@ blogRouter.get('/:id/posts',
     BlogPostValidationRules(),
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const foundPosts = await postQueryRepository.getPosts(req.params.id)
+        const {posts} = await postQueryRepository.getPosts(req.params.id)
+        const foundPosts = await posts
         if(!foundPosts) {
             res.status(404).send()
         } else {

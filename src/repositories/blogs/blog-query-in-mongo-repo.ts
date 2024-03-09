@@ -3,9 +3,16 @@ import {blogsCollection} from "../db";
 export const blogQueryRepository = {
     async getBlogs(title: string | undefined | null) {
         if(title) {
-            return blogsCollection.find({title: {$regex: title}}).toArray()
+           console.log('total count', blogsCollection.countDocuments())
+            return {
+                blogs: await blogsCollection.find({title: {$regex: title}}).toArray(),
+                totalCount: await blogsCollection.countDocuments({title: {$regex: title}})
+            }
         } else {
-            return blogsCollection.find({}).toArray()
+            return {
+                blogs: await blogsCollection.find({}).toArray(),
+                totalCount: await blogsCollection.countDocuments({}),
+            }
         }
     },
 

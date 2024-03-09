@@ -12,11 +12,24 @@ import {postQueryRepository} from "../repositories/posts/post-query-in-mongo-rep
 export const postRouter = Router({})
 
 postRouter.get('/', async (req: Request, res: Response) => {
-    const foundPosts = await postQueryRepository.getPosts(req.query.title?.toString())
-    const formattedPosts = foundPosts.map(el => {
+    const query = req.query
+    const sortData = {
+        sortBy: query.sortBy || "createdAt",
+        sortDirection: query.sortDirection || "desc",
+        pageNumber: query.pageNumber || 1,
+        pageSize: query.pageSize || 10
+    }
+    const {posts, totalCount} = await postQueryRepository.getPosts(query.title?.toString())
+    const formattedPosts = (await posts).map(el => {
         return preparePostResponse(el)
     })
-    res.send(formattedPosts)
+    res.send({
+        totalCount: totalCount,
+        pagesCount: Math.ceil(totalCount / +sortData.pageSize),
+        page: sortData.pageNumber,
+        pageSize: sortData.pageSize,
+        items: formattedPosts
+    })
 })
 
 postRouter.get('/:id', async (req: Request, res: Response) => {
