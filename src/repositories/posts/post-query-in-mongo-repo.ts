@@ -14,7 +14,11 @@ export const postQueryRepository = {
             }
         } else {
             return {
-                posts: postsCollection.find().sort({createdAt: -1}).limit(pageSize).toArray(),
+                posts: postsCollection
+                    .find()
+                    .sort({createdAt: -1})
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize).toArray(),
                 totalCount: postsCollection.countDocuments()
             }
         }

@@ -14,7 +14,11 @@ export const blogQueryRepository = {
             }
         } else {
             return {
-                blogs: await blogsCollection.find({}).sort({createdAt: -1}).limit(+pageSize).toArray(),
+                blogs: await blogsCollection
+                    .find({})
+                    .sort({createdAt: -1})
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(+pageSize).toArray(),
                 totalCount: await blogsCollection.countDocuments({}),
             }
         }

@@ -21,10 +21,6 @@ app.use(RouterPaths.blogs, blogRouter);
 app.use(RouterPaths.posts, postRouter);
 app.use(RouterPaths.testing, testingRouter)
 
-// app.delete('/testing/all-data', (_, res: Response) => {
-//     res.sendStatus(204);
-// });
-
 runDb().catch(console.error);
 
 export default app;
