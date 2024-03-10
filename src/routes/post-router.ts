@@ -26,8 +26,8 @@ postRouter.get('/', async (req: Request, res: Response) => {
     res.send({
         totalCount: await totalCount,
         pagesCount: Math.ceil(await totalCount / +sortData.pageSize),
-        page: sortData.pageNumber,
-        pageSize: sortData.pageSize,
+        page: +sortData.pageNumber,
+        pageSize: +sortData.pageSize,
         items: formattedPosts
     })
 })

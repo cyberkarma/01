@@ -1,7 +1,7 @@
 import express, {Response} from 'express'
 import {blogRouter} from "../../routes/blog-router";
 import {postRouter} from "../../routes/post-router";
-import {runDb} from "../../repositories/db";
+import {collectionsList, dbInstance, runDb} from "../../repositories/db";
 import dotenv from  'dotenv'
 
 dotenv.config()
@@ -18,7 +18,11 @@ export async function runServer(app: express.Application) {
     app.use(RouterPaths.posts, postRouter)
 
 
-    app.delete('/testing/all-data', (_, res: Response) => {
+    app.delete('/testing/all-data', async (_, res: Response) => {
+        const listOfCollections = await collectionsList.toArray()
+        for(const collection of listOfCollections) {
+            await dbInstance.collection(collection.name).deleteMany({})
+        }
         res.sendStatus(204)
     })
 
