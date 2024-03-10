@@ -5,12 +5,12 @@ export const blogQueryRepository = {
         if(title) {
            console.log('total count', blogsCollection.countDocuments())
             return {
-                blogs: await blogsCollection.find({title: {$regex: title}}).toArray(),
+                blogs: await blogsCollection.find({title: {$regex: title}}).sort({createdAt: -1}).toArray(),
                 totalCount: await blogsCollection.countDocuments({title: {$regex: title}})
             }
         } else {
             return {
-                blogs: await blogsCollection.find({}).toArray(),
+                blogs: await blogsCollection.find({}).sort({createdAt: -1}).toArray(),
                 totalCount: await blogsCollection.countDocuments({}),
             }
         }
