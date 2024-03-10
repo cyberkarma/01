@@ -19,7 +19,7 @@ postRouter.get('/', async (req: Request, res: Response) => {
         pageNumber: query.pageNumber || 1,
         pageSize: query.pageSize || 10
     }
-    const {posts, totalCount} = await postQueryRepository.getPosts(query.title?.toString())
+    const {posts, totalCount} = await postQueryRepository.getPosts(query.title?.toString(), +sortData.pageSize)
     const formattedPosts = (await posts).map(el => {
         return preparePostResponse(el)
     })

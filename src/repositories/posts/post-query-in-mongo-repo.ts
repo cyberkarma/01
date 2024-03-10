@@ -1,17 +1,17 @@
 import {postsCollection} from "../db";
 
 export const postQueryRepository = {
-    async getPosts(title: string | undefined | null) {
+    async getPosts(title: string | undefined | null, pageSize:number) {
         let searchKey = {}
         if (title) searchKey = {blogId: title};
         if(title) {
             return {
-                posts: postsCollection.find(searchKey).sort({createdAt: -1}).toArray(),
+                posts: postsCollection.find(searchKey).sort({createdAt: -1}).limit(pageSize).toArray(),
                 totalCount: postsCollection.countDocuments(searchKey)
             }
         } else {
             return {
-                posts: postsCollection.find().sort({createdAt: -1}).toArray(),
+                posts: postsCollection.find().sort({createdAt: -1}).limit(pageSize).toArray(),
                 totalCount: postsCollection.countDocuments()
             }
         }
