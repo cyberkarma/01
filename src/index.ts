@@ -3,12 +3,14 @@ import { blogRouter } from './routes/blog-router';
 import { postRouter } from './routes/post-router';
 import { runDb } from './repositories/db';
 import dotenv from 'dotenv';
+import {testingRouter} from "./routes/testing-router";
 
 dotenv.config();
 
 export const RouterPaths = {
     blogs: '/blogs',
     posts: '/posts',
+    testing: '/testing'
 };
 
 const app: Express = express();
@@ -17,10 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(RouterPaths.blogs, blogRouter);
 app.use(RouterPaths.posts, postRouter);
+app.use(RouterPaths.testing, testingRouter)
 
-app.delete('/testing/all-data', (_, res: Response) => {
-    res.sendStatus(204);
-});
+// app.delete('/testing/all-data', (_, res: Response) => {
+//     res.sendStatus(204);
+// });
 
 runDb().catch(console.error);
 
