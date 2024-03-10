@@ -6,12 +6,12 @@ export const postQueryRepository = {
         if (title) searchKey = {blogId: title};
         if(title) {
             return {
-                posts: postsCollection.find(searchKey).sort({createdAt: -1}).limit(pageSize).toArray(),
+                posts: postsCollection.find(searchKey).sort({createdAt: 1}).limit(pageSize).toArray(),
                 totalCount: postsCollection.countDocuments(searchKey)
             }
         } else {
             return {
-                posts: postsCollection.find().sort({createdAt: -1}).limit(pageSize).toArray(),
+                posts: postsCollection.find().sort({createdAt: 1}).limit(pageSize).toArray(),
                 totalCount: postsCollection.countDocuments()
             }
         }
