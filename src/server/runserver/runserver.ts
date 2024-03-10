@@ -19,11 +19,21 @@ export async function runServer(app: express.Application) {
 
 
     app.delete('/testing/all-data', async (_, res: Response) => {
-        const listOfCollections = await collectionsList.toArray()
-        for(const collection of listOfCollections) {
-            await dbInstance.collection(collection.name).deleteMany({})
+        try {
+            const listOfCollections = await dbInstance.listCollections().toArray();
+            for(const collection of listOfCollections) {
+                await dbInstance.collection(collection.name).deleteMany({});
+            }
+            res.sendStatus(204);
+        } catch (error) {
+            console.error("Ошибка при удалении данных: ", error);
+            res.status(500).send("Internal Server Error");
         }
-        res.sendStatus(204)
+        // const listOfCollections = await collectionsList.toArray()
+        // for(const collection of listOfCollections) {
+        //     await dbInstance.collection(collection.name).deleteMany({})
+        // }
+        // res.sendStatus(204)
     })
 
     app.listen(port, () => {
