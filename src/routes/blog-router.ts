@@ -29,7 +29,12 @@ blogRouter.get('/',
         }
 
         const {blogs, totalCount} = await blogQueryRepository
-            .getBlogs(req.query.name?.toString(), +sortData.pageSize, +sortData.pageNumber, sortData.sortDirection.toString())
+            .getBlogs(
+                req.query.name?.toString(),
+                +sortData.pageSize,
+                +sortData.pageNumber,
+                sortData.sortDirection.toString(),
+                sortData.sortBy.toString())
         const formattedBlogs = (await blogs).map(el => {
             return prepareBlogResponse(el)
         })
