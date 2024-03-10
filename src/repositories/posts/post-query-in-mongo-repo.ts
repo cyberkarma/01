@@ -1,13 +1,13 @@
 import {postsCollection} from "../db";
 
 export const postQueryRepository = {
-    async getPosts(title: string | undefined | null, pageSize:number, pageNumber: number) {
+    async getPosts(title: string | undefined | null, pageSize:number, pageNumber: number, sortDirection: string) {
         let searchKey = {}
         if (title) searchKey = {blogId: title};
         if(title) {
             return {
                 posts: postsCollection.find(searchKey)
-                    .sort({createdAt: -1})
+                    .sort({createdAt: sortDirection === 'desc' ? -1 : 1})
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize).toArray(),
                 totalCount: postsCollection.countDocuments(searchKey)
@@ -16,7 +16,7 @@ export const postQueryRepository = {
             return {
                 posts: postsCollection
                     .find()
-                    .sort({createdAt: -1})
+                    .sort({createdAt: sortDirection === 'desc' ? -1 : 1})
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize).toArray(),
                 totalCount: postsCollection.countDocuments()

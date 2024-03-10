@@ -23,7 +23,8 @@ postRouter.get('/', async (req: Request, res: Response) => {
         .getPosts(
             query.title?.toString(),
             +sortData.pageSize,
-            +sortData.pageNumber
+            +sortData.pageNumber,
+            sortData.sortDirection.toString()
         )
     const formattedPosts = (await posts).map(el => {
         return preparePostResponse(el)
