@@ -1,14 +1,14 @@
 import {IPostIM, IPostVM} from "../post";
 import {postQueryRepository} from "../repositories/posts/post-query-in-mongo-repo";
 import {postsRepository} from "../repositories/posts/post-in-mongo-db-repo";
-import {ObjectId} from "mongodb";
+import {ObjectId, UUID} from "mongodb";
 
 export const postsService = {
 
     async createPost(post: IPostIM, blogId?: string) {
-        const genId = new ObjectId().toString()
+        const genId = new UUID()
         const newPost: IPostVM = {
-            id: genId,
+            id: genId.toString(),
             title: post.title,
             shortDescription: post.shortDescription,
             content: post.content,
@@ -21,7 +21,7 @@ export const postsService = {
         // const post1 = await postQueryRepository.getPostById(genId)
         // console.log('post1',post1)
 
-        return await postQueryRepository.getPostById(genId)
+        return await postQueryRepository.getPostById(genId.toString())
     },
 
     async updatePost(id: string, post: IPostIM) {

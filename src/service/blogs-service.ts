@@ -1,14 +1,15 @@
 import {IBlogIM, IBlogVM} from "../blog";
 import {blogRepository} from "../repositories/blogs/blog-in-mongo-db-repo";
 import {blogQueryRepository} from "../repositories/blogs/blog-query-in-mongo-repo";
+import {UUID} from "mongodb";
 
 
 export const blogsService = {
 
     async createBlog(blog: IBlogIM) {
-        const genId = Math.floor(Math.random() * 100).toString()
+        const genId =  new UUID()
         const newBlog: IBlogVM = {
-            id: genId,
+            id: genId.toString(),
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
@@ -16,7 +17,7 @@ export const blogsService = {
             createdAt: new Date(),
         }
         await blogRepository.createBlog(newBlog)
-        return blogQueryRepository.getBlogsById(genId)
+        return blogQueryRepository.getBlogsById(genId.toString())
     },
 
     async updateBlog(id: string, blog: IBlogIM) {
