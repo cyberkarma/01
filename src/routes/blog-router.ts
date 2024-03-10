@@ -20,12 +20,16 @@ export const blogRouter = Router({})
 blogRouter.get('/',
     async (req: Request, res: Response) => {
         const query = req.query
+        // const searchName = {
+        //     searchNameTerm: query.searchNameTerm || null
+        // }
 
         const sortData = {
             sortBy: query.sortBy || "createdAt",
             sortDirection: query.sortDirection || "desc",
             pageNumber: query.pageNumber || 1,
-            pageSize: query.pageSize || 10
+            pageSize: query.pageSize || 10,
+            searchNameTerm: query.searchNameTerm || ''
         }
 
         const {blogs, totalCount} = await blogQueryRepository
@@ -34,7 +38,9 @@ blogRouter.get('/',
                 +sortData.pageSize,
                 +sortData.pageNumber,
                 sortData.sortDirection.toString(),
-                sortData.sortBy.toString())
+                sortData.sortBy.toString(),
+                sortData.searchNameTerm.toString()
+            )
         const formattedBlogs = (await blogs).map(el => {
             return prepareBlogResponse(el)
         })

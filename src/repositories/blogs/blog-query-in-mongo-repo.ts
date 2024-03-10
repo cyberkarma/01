@@ -1,9 +1,19 @@
 import {blogsCollection} from "../db";
 
 export const blogQueryRepository = {
-    async getBlogs(title: string | undefined | null, pageSize: number, pageNumber: number, sortDirection: string, sortBy: string) {
+    async getBlogs(
+        title: string | undefined | null,
+        pageSize: number,
+        pageNumber: number,
+        sortDirection: string,
+        sortBy: string,
+        searchNameTerm: string,
+    ) {
+        let searchKey = {};
         let sortKey = {};
+
         let sortDirectionInner: number;
+        if (searchNameTerm) searchKey = {name: {$regex: searchNameTerm,$options:"i"}};
 
         if (sortDirection === "desc") sortDirectionInner = -1;
         else sortDirectionInner = 1;
@@ -20,8 +30,9 @@ export const blogQueryRepository = {
            console.log('total count', blogsCollection.countDocuments())
             return {
                 blogs: await blogsCollection
-                    .find({title: {$regex: title}})
+                    // .find({title: {$regex: title}})
                     // .sort({sortParam: sortDirection === 'desc' ? -1 : 1})
+                    .find(searchKey)
                     .sort(sortKey)
                     .skip((pageNumber - 1) * pageSize)
                     .limit(+pageSize).toArray(),
@@ -30,8 +41,9 @@ export const blogQueryRepository = {
         } else {
             return {
                 blogs: await blogsCollection
-                    .find({})
+                    // .find({})
                     // .sort({sortParam: sortDirection === 'desc' ? -1 : 1})
+                    .find(searchKey)
                     .sort(sortKey)
                     .skip((pageNumber - 1) * pageSize)
                     .limit(+pageSize).toArray(),
