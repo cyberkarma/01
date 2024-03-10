@@ -27,7 +27,7 @@ export const blogQueryRepository = {
 
 
         if(title) {
-           console.log('total count', blogsCollection.countDocuments())
+           console.log('total count', blogsCollection.countDocuments(searchKey))
             return {
                 blogs: await blogsCollection
                     // .find({title: {$regex: title}})
@@ -36,7 +36,7 @@ export const blogQueryRepository = {
                     .sort(sortKey)
                     .skip((pageNumber - 1) * pageSize)
                     .limit(+pageSize).toArray(),
-                totalCount: await blogsCollection.countDocuments({title: {$regex: title}})
+                totalCount: await blogsCollection.countDocuments(searchKey)
             }
         } else {
             return {
@@ -47,7 +47,7 @@ export const blogQueryRepository = {
                     .sort(sortKey)
                     .skip((pageNumber - 1) * pageSize)
                     .limit(+pageSize).toArray(),
-                totalCount: await blogsCollection.countDocuments({}),
+                totalCount: await blogsCollection.countDocuments(searchKey),
             }
         }
     },
