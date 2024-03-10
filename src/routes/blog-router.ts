@@ -34,8 +34,8 @@ blogRouter.get('/',
         })
         res.send({
             pagesCount: Math.ceil(totalCount / +sortData.pageSize),
-            page: sortData.pageNumber,
-            pageSize: sortData.pageSize,
+            page: +sortData.pageNumber,
+            pageSize: +sortData.pageSize,
             totalCount: totalCount,
             items: formattedBlogs})
 })
