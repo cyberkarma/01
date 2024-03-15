@@ -4,6 +4,7 @@ import {postRouter} from "../../routes/post-router";
 import {collectionsList, dbInstance, runDb} from "../../repositories/db";
 import dotenv from  'dotenv'
 import {testingRouter} from "../../routes/testing-router";
+import {usersRouter} from "../../routes/users-router";
 
 dotenv.config()
 
@@ -15,28 +16,11 @@ export async function runServer(app: express.Application) {
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+
     app.use(RouterPaths.blogs, blogRouter)
     app.use(RouterPaths.posts, postRouter)
     app.use(RouterPaths.testing, testingRouter)
-
-    //
-    // app.delete('/testing/all-data', async (_, res: Response) => {
-    //     try {
-    //         const listOfCollections = await dbInstance.listCollections().toArray();
-    //         for(const collection of listOfCollections) {
-    //             await dbInstance.collection(collection.name).deleteMany({});
-    //         }
-    //         res.sendStatus(204);
-    //     } catch (error) {
-    //         console.error("Ошибка при удалении данных: ", error);
-    //         res.status(500).send("Internal Server Error");
-    //     }
-    //     // const listOfCollections = await collectionsList.toArray()
-    //     // for(const collection of listOfCollections) {
-    //     //     await dbInstance.collection(collection.name).deleteMany({})
-    //     // }
-    //     // res.sendStatus(204)
-    // })
+    app.use(RouterPaths.users, usersRouter)
 
     app.listen(port, () => {
         console.log(`Example app listening on port ${port}`)
@@ -48,4 +32,5 @@ export const RouterPaths = {
     blogs: '/blogs',
     posts: '/posts',
     testing:'/testing',
+    users: '/users',
 }

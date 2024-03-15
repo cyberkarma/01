@@ -4,13 +4,15 @@ import { postRouter } from './routes/post-router';
 import { runDb } from './repositories/db';
 import dotenv from 'dotenv';
 import {testingRouter} from "./routes/testing-router";
+import {usersRouter} from "./routes/users-router";
 
 dotenv.config();
 
 export const RouterPaths = {
     blogs: '/blogs',
     posts: '/posts',
-    testing: '/testing'
+    testing: '/testing',
+    users: '/users',
 };
 
 const app: Express = express();
@@ -20,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(RouterPaths.blogs, blogRouter);
 app.use(RouterPaths.posts, postRouter);
 app.use(RouterPaths.testing, testingRouter)
+app.use(RouterPaths.users, usersRouter)
 
 runDb().catch(console.error);
 
