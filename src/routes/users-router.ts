@@ -52,7 +52,7 @@ usersRouter.post('/', async (req: Request, res: Response) => {
     const newUser = await usersService.createUser(req.body)
     if(newUser) {
         const responseUser = prepareUserResponse(newUser)
-        res.status(200).send(responseUser)
+        res.status(201).send(responseUser)
     } else {
         res.status(500).send({ error: 'Internal Server Error' });
     }
