@@ -10,11 +10,9 @@ export const usersQueryRepository = {
         let sortDirection: number;
 
         let searchKeysArray:Object[] = [];
-        if (searchData.searchLoginTerm) searchKeysArray.push({login: {$regex: searchData.searchLoginTerm, $options: "i"}});
-        if (searchData.searchEmailTerm) {
-            // Добавляет регулярное выражение для поиска .com в любом месте строки email, нечувствительно к регистру
-            searchKeysArray.push({email: {$regex: ".*" + searchData.searchEmailTerm + ".*", $options: "i"}});
-        }
+        if (searchData.searchLoginTerm) searchKeysArray.push({userName: {$regex: searchData.searchLoginTerm, $options: "i"}});
+        if (searchData.searchEmailTerm) searchKeysArray.push({email: {$regex: searchData.searchEmailTerm, $options: "i"}});
+        console.log(searchData)
 
 
         if (searchKeysArray.length === 0) {
@@ -33,11 +31,12 @@ export const usersQueryRepository = {
         if (sortData.sortDirection === "desc") sortDirection = -1;
         else sortDirection = 1;
 
-        if (sortData.sortBy === "login") sortKey = {login: sortDirection};
+        if (sortData.sortBy === "login") sortKey = {userName: sortDirection};
         else if (sortData.sortBy === "email") sortKey = {email: sortDirection};
         else sortKey = {createdAt: sortDirection};
 
         const users = await usersCollection.find(searchKey).sort(sortKey).skip(+skippedDocuments).limit(+sortData.pageSize).toArray();
+        console.log(searchKey)
         return {
             pagesCount: pageCount,
             page: +sortData.pageNumber,
