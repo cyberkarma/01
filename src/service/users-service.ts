@@ -17,7 +17,7 @@ export const usersService = {
             email: user.email,
             passwordHash,
             passwordSalt,
-            createdAt: new Date().toString()
+            createdAt: new Date(),
         }
         await usersRepository.createUser(newUser)
         return usersQueryRepository.getUsersById(genId.toString())

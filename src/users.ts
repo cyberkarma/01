@@ -9,7 +9,7 @@ export interface IUsersVM {
     id: string,
     login: string,
     email: string,
-    createdAt: string
+    createdAt: Date
 }
 
 export interface IUsersDBM {
@@ -18,7 +18,7 @@ export interface IUsersDBM {
     email: string,
     passwordSalt: string,
     passwordHash: string,
-    createdAt: string
+    createdAt: Date
 }
 
 export function prepareUserResponse(doc: WithId<IUsersDBM>): IUsersVM {
