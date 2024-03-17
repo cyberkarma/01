@@ -50,7 +50,13 @@ usersRouter.get('/:id', async (req: Request, res: Response) => {
 
 usersRouter.post('/', async (req: Request, res: Response) => {
     const newUser = await usersService.createUser(req.body)
-    res.status(200).send(newUser)
+    if(newUser) {
+        const responseUser = prepareUserResponse(newUser)
+        res.status(200).send(responseUser)
+    } else {
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+
 })
 
 usersRouter.put('/:id', async (req: Request, res: Response) => {
