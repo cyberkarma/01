@@ -11,7 +11,11 @@ export const usersQueryRepository = {
 
         let searchKeysArray:Object[] = [];
         if (searchData.searchLoginTerm) searchKeysArray.push({login: {$regex: searchData.searchLoginTerm, $options: "i"}});
-        if (searchData.searchEmailTerm) searchKeysArray.push({email: {$regex: searchData.searchEmailTerm, $options: "i"}});
+        if (searchData.searchEmailTerm) {
+            // Добавляет регулярное выражение для поиска .com в любом месте строки email, нечувствительно к регистру
+            searchKeysArray.push({email: {$regex: ".*" + searchData.searchEmailTerm + ".*", $options: "i"}});
+        }
+
 
         if (searchKeysArray.length === 0) {
             searchKey = {};
