@@ -16,8 +16,8 @@ export const usersQueryRepository = {
         if (searchKeysArray.length === 0) {
             searchKey = {};
         } else if (searchKeysArray.length === 1) {
-            searchKey = searchKeysArray;
-        }else if (searchKeysArray.length > 1) {
+            searchKey = searchKeysArray[0]; // Исправлено здесь: присваиваем объект напрямую
+        } else if (searchKeysArray.length > 1) {
             searchKey = {$or: searchKeysArray};
         }
         const documentsTotalCount = await usersCollection.countDocuments(searchKey); // Receive total count of blogs
