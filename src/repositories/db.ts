@@ -2,6 +2,7 @@ import { MongoClient, ObjectId } from 'mongodb'
 import {IBlogIM} from "../blog";
 import * as dotenv from 'dotenv';
 import {IPostIM} from "../post";
+import {IUsersDBM, IUsersIM} from "../users";
 dotenv.config();
 
 
@@ -14,6 +15,7 @@ console.log('Mongo local url:', mongoUri)
 
 export const blogsCollection = client.db('blogger-platform').collection<IBlogIM>('blogs')
 export const postsCollection = client.db('blogger-platform').collection<IPostIM>('posts')
+export const usersCollection = client.db('blogger-platform').collection<IUsersDBM>('users')
 
 export const collectionsList = client.db('blogger-platform').listCollections()
 
