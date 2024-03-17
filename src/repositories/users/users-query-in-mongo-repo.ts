@@ -1,18 +1,12 @@
 import {usersCollection} from "../db";
+import {prepareUserResponse} from "../../users";
 
 export const usersQueryRepository = {
     async getUsers(
         sortData:any, searchData:any
-        // title: string | undefined | null,
-        // pageSize: number,
-        // pageNumber: number,
-        // sortDirection: string,
-        // sortBy: string,
-        // searchNameTerm: string,
     ) {
         let searchKey = {};
         let sortKey = {};
-
         let sortDirection: number;
 
         let searchKeysArray:Object[] = [];
@@ -34,6 +28,7 @@ export const usersQueryRepository = {
         // check if sortDirection is "desc" assign sortDirection value -1, else assign 1
         if (sortData.sortDirection === "desc") sortDirection = -1;
         else sortDirection = 1;
+
         if (sortData.sortBy === "login") sortKey = {login: sortDirection};
         else if (sortData.sortBy === "email") sortKey = {email: sortDirection};
         else sortKey = {createdAt: sortDirection};
@@ -44,7 +39,7 @@ export const usersQueryRepository = {
             page: +sortData.pageNumber,
             pageSize: +sortData.pageSize,
             totalCount: documentsTotalCount,
-            items: users
+            items: users.map(prepareUserResponse)
         }
 
 
