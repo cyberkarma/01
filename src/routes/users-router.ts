@@ -13,19 +13,28 @@ usersRouter.get('/', async (req: Request, res: Response) => {
         sortDirection: query.sortDirection || "desc",
         pageNumber: query.pageNumber || 1,
         pageSize: query.pageSize || 10,
-        searchNameTerm: query.searchNameTerm || ''
+        // searchNameTerm: query.searchNameTerm || ''
     }
 
-    const {users, totalCount} = await usersQueryRepository.getUsers(
-        req.query.name?.toString(),
-        +sortData.pageSize,
-        +sortData.pageNumber,
-        sortData.sortDirection.toString(),
-        sortData.sortBy.toString(),
-        sortData.searchNameTerm.toString()
+    const searchData = {
+        searchLoginTerm: query.searchLoginTerm || null,
+        searchEmailTerm: query.searchEmailTerm || null
+    }
+
+    const {items, totalCount} = await usersQueryRepository.getUsers(
+       sortData, searchData
     )
 
-    const formattedUsers = (await  users).map(el => {
+    // const {users, totalCount} = await usersQueryRepository.getUsers(
+    //     req.query.name?.toString(),
+    //     +sortData.pageSize,
+    //     +sortData.pageNumber,
+    //     sortData.sortDirection.toString(),
+    //     sortData.sortBy.toString(),
+    //     sortData.searchNameTerm.toString()
+    // )
+
+    const formattedUsers = (await  items).map(el => {
         return prepareUserResponse(el)
     })
 

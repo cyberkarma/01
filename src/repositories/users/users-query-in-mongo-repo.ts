@@ -2,47 +2,53 @@ import {usersCollection} from "../db";
 
 export const usersQueryRepository = {
     async getUsers(
-        title: string | undefined | null,
-        pageSize: number,
-        pageNumber: number,
-        sortDirection: string,
-        sortBy: string,
-        searchNameTerm: string,
+        sortData:any, searchData:any
+        // title: string | undefined | null,
+        // pageSize: number,
+        // pageNumber: number,
+        // sortDirection: string,
+        // sortBy: string,
+        // searchNameTerm: string,
     ) {
         let searchKey = {};
         let sortKey = {};
 
-        let sortDirectionInner: number;
-        if (searchNameTerm) searchKey = {name: {$regex: searchNameTerm,$options:"i"}};
+        let sortDirection: number;
 
-        if (sortDirection === "desc") sortDirectionInner = -1;
-        else sortDirectionInner = 1;
+        let searchKeysArray:Object[] = [];
+        if (searchData.searchLoginTerm) searchKeysArray.push({login: {$regex: searchData.searchLoginTerm, $options: "i"}});
+        if (searchData.searchEmailTerm) searchKeysArray.push({email: {$regex: searchData.searchEmailTerm, $options: "i"}});
 
-
-        if (sortBy === "description") sortKey = {description: sortDirectionInner};
-        else if (sortBy === "websiteUrl") sortKey = {websiteUrl: sortDirectionInner};
-        else if (sortBy === "name") sortKey = {name: sortDirectionInner};
-        else if (sortBy === "isMembership") sortKey = {isMembership: sortDirectionInner};
-        else sortKey = {createdAt: sortDirectionInner};
-        if(title) {
-            return {
-                users: await usersCollection
-                    .find(searchKey)
-                    .sort(sortKey)
-                    .skip((pageNumber - 1) * pageSize)
-                    .limit(+pageSize).toArray(),
-                totalCount: await usersCollection.countDocuments(searchKey)
-            }
-        } else {
-            return {
-                users: usersCollection
-                    .find(searchKey)
-                    .sort(sortKey)
-                    .skip((pageNumber - 1) * pageSize)
-                    .limit(+pageSize).toArray(),
-                totalCount: await usersCollection.countDocuments(searchKey)
-            }
+        if (searchKeysArray.length === 0) {
+            searchKey = {};
+        } else if (searchKeysArray.length === 1) {
+            searchKey = searchKeysArray;
+        }else if (searchKeysArray.length > 1) {
+            searchKey = {$or: searchKeysArray};
         }
+        const documentsTotalCount = await usersCollection.countDocuments(searchKey); // Receive total count of blogs
+        const pageCount = Math.ceil(documentsTotalCount / +sortData.pageSize); // Calculate total pages count according to page size
+        const skippedDocuments = (+sortData.pageNumber - 1) * +sortData.pageSize; // Calculate count of skipped docs before requested page
+
+
+        // check if sortDirection is "desc" assign sortDirection value -1, else assign 1
+        if (sortData.sortDirection === "desc") sortDirection = -1;
+        else sortDirection = 1;
+        if (sortData.sortBy === "login") sortKey = {login: sortDirection};
+        else if (sortData.sortBy === "email") sortKey = {email: sortDirection};
+        else sortKey = {createdAt: sortDirection};
+
+        const users = await usersCollection.find(searchKey).sort(sortKey).skip(+skippedDocuments).limit(+sortData.pageSize).toArray();
+        return {
+            pagesCount: pageCount,
+            page: +sortData.pageNumber,
+            pageSize: +sortData.pageSize,
+            totalCount: documentsTotalCount,
+            items: users
+        }
+
+
+
     },
 
     async getUsersById(id: string) {
