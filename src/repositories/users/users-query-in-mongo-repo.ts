@@ -41,9 +41,6 @@ export const usersQueryRepository = {
             totalCount: documentsTotalCount,
             items: users.map(prepareUserResponse)
         }
-
-
-
     },
 
     async getUsersById(id: string) {

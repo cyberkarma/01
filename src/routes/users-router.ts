@@ -14,7 +14,6 @@ usersRouter.get('/', async (req: Request, res: Response) => {
         sortDirection: query.sortDirection || "desc",
         pageNumber: query.pageNumber || 1,
         pageSize: query.pageSize || 10,
-        // searchNameTerm: query.searchNameTerm || ''
     }
 
     const searchData = {
@@ -22,32 +21,8 @@ usersRouter.get('/', async (req: Request, res: Response) => {
         searchEmailTerm: query.searchEmailTerm || null
     }
 
-
-    const {items, totalCount} = await usersQueryRepository.getUsers(
-       sortData, searchData
-    )
     const users = await usersQueryRepository.getUsers(sortData, searchData)
     res.json(users)
-
-    // const {users, totalCount} = await usersQueryRepository.getUsers(
-    //     req.query.name?.toString(),
-    //     +sortData.pageSize,
-    //     +sortData.pageNumber,
-    //     sortData.sortDirection.toString(),
-    //     sortData.sortBy.toString(),
-    //     sortData.searchNameTerm.toString()
-    // )
-
-    // const formattedUsers = (await  items).map(el => {
-    //     return prepareUserResponse(el)
-    // })
-
-    // res.send({
-    //     pagesCount: Math.ceil(totalCount / +sortData.pageSize),
-    //     page: +sortData.pageNumber,
-    //     pageSize: +sortData.pageSize,
-    //     totalCount: totalCount,
-    //     items: formattedUsers})
 })
 
 usersRouter.get('/:id', async (req: Request, res: Response) => {
