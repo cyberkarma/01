@@ -14,6 +14,6 @@ authRouter.post('/login',
             if(foundUser) {
                     res.status(204).send()
             } else {
-                    res.status(400).send()
+                    res.status(401).send()
             }
     })
