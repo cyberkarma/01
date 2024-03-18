@@ -31,6 +31,17 @@ export const usersService = {
         return await usersRepository.deleteUser(id)
     },
 
+    async authUser(password:string, loginOrEmail:string) {
+
+        const user = await usersRepository.authUser(loginOrEmail)
+        if(user) {
+            const isSuccess = await bcrypt.compare(password, user?.passwordHash)
+            return true
+        }
+        return false
+
+    },
+
 
     async _generateHash(password: string, salt: string) {
         return await bcrypt.hash(password, salt)

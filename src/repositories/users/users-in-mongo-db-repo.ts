@@ -6,6 +6,11 @@ export const usersRepository = {
         return await usersCollection.insertOne(user)
     },
 
+    async authUser(loginOrEmail: string) {
+        const searchKey = {$or: [{userName: loginOrEmail}, {email: loginOrEmail}]};
+        return await usersCollection.findOne(searchKey)
+    },
+
     async updateUser(id: string, user: IUsersIM) {
         const result = await usersCollection.updateOne(
             {id: id},

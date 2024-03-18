@@ -5,6 +5,7 @@ import { runDb } from './repositories/db';
 import dotenv from 'dotenv';
 import {testingRouter} from "./routes/testing-router";
 import {usersRouter} from "./routes/users-router";
+import {authRouter} from "./routes/auth-router";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ export const RouterPaths = {
     posts: '/posts',
     testing: '/testing',
     users: '/users',
+    auth: '/auth',
 };
 
 const app: Express = express();
@@ -23,6 +25,7 @@ app.use(RouterPaths.blogs, blogRouter);
 app.use(RouterPaths.posts, postRouter);
 app.use(RouterPaths.testing, testingRouter)
 app.use(RouterPaths.users, usersRouter)
+app.use(RouterPaths.auth, authRouter)
 
 runDb().catch(console.error);
 
