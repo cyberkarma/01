@@ -36,7 +36,8 @@ export const usersService = {
         const user = await usersRepository.authUser(loginOrEmail)
         if(user) {
             const isSuccess = await bcrypt.compare(password, user?.passwordHash)
-            return true
+            console.log(isSuccess)
+            return isSuccess
         }
         return false
 
