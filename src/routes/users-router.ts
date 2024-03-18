@@ -3,6 +3,7 @@ import {usersService} from "../service/users-service";
 import {usersQueryRepository} from "../repositories/users/users-query-in-mongo-repo";
 import {prepareUserResponse} from "../users";
 import {usersRepository} from "../repositories/users/users-in-mongo-db-repo";
+import {basicAuth} from "../middlewares/authorization-middleware";
 
 export const usersRouter = Router({})
 
@@ -36,7 +37,9 @@ usersRouter.get('/:id', async (req: Request, res: Response) => {
     }
 })
 
-usersRouter.post('/', async (req: Request, res: Response) => {
+usersRouter.post('/',
+    basicAuth,
+    async (req: Request, res: Response) => {
     const newUser = await usersService.createUser(req.body)
     if(newUser) {
         const responseUser = prepareUserResponse(newUser)
@@ -47,7 +50,9 @@ usersRouter.post('/', async (req: Request, res: Response) => {
 
 })
 
-usersRouter.put('/:id', async (req: Request, res: Response) => {
+usersRouter.put('/:id',
+    basicAuth,
+    async (req: Request, res: Response) => {
     const {id} = req.params
     const updatedUser = await usersService.updateUser(id, req.body)
     if(!updatedUser) {
@@ -57,7 +62,9 @@ usersRouter.put('/:id', async (req: Request, res: Response) => {
     }
 })
 
-usersRouter.delete('/:id', async (req: Request, res: Response) => {
+usersRouter.delete('/:id',
+    basicAuth,
+    async (req: Request, res: Response) => {
     const isDeleted = await usersService.deleteUser(req.params.id)
 
     if(isDeleted) {
