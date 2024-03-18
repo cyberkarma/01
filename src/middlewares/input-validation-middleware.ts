@@ -24,6 +24,15 @@ export const postValidationRules = () => {
     ]
 }
 
+export const postUserValidationRules = () => {
+    return [
+        check('login').trim().notEmpty().withMessage('login!').isLength({max: 10, min: 3}),
+        check('password').notEmpty().withMessage('password!!!').isLength({max: 20, min: 6}),
+        check('email').trim().notEmpty().withMessage('email!!!').isURL(),
+    ]
+}
+
+
 export const BlogPostValidationRules = () => {
     return [
         param('id')

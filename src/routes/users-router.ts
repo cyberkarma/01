@@ -4,6 +4,7 @@ import {usersQueryRepository} from "../repositories/users/users-query-in-mongo-r
 import {prepareUserResponse} from "../users";
 import {usersRepository} from "../repositories/users/users-in-mongo-db-repo";
 import {basicAuth} from "../middlewares/authorization-middleware";
+import {inputValidationMiddleware, postUserValidationRules} from "../middlewares/input-validation-middleware";
 
 export const usersRouter = Router({})
 
@@ -39,6 +40,8 @@ usersRouter.get('/:id', async (req: Request, res: Response) => {
 
 usersRouter.post('/',
     basicAuth,
+    postUserValidationRules(),
+    inputValidationMiddleware,
     async (req: Request, res: Response) => {
     const newUser = await usersService.createUser(req.body)
     if(newUser) {
@@ -52,6 +55,8 @@ usersRouter.post('/',
 
 usersRouter.put('/:id',
     basicAuth,
+    postUserValidationRules(),
+    inputValidationMiddleware,
     async (req: Request, res: Response) => {
     const {id} = req.params
     const updatedUser = await usersService.updateUser(id, req.body)
